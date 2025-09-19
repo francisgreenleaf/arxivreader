@@ -1,0 +1,33 @@
+{
+  "name": "arxivreader",
+  "version": "1.0.0",
+  "description": "A Node.js project for reading and processing arXiv papers with web interface",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "backend": "source venv/bin/activate && cd src/backend && python api_server.py",
+    "install-python": "pip3 install -r requirements.txt",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Build script not configured yet\"",
+    "clean": "rm -rf node_modules .pnpm-store",
+    "reinstall": "pnpm clean && pnpm install"
+  },
+  "keywords": ["arxiv", "reader", "papers", "research", "web", "html"],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
