@@ -1,7 +1,17 @@
 {
   "keywords": [
-    "Language Model"
+    "Machine Learning",
+    "artificial intelligence"
   ],
   "max_results": 50,
-  "saved_papers": []
+  "saved_papers": [],
+  "theme_preferences": {
+    "selectedTheme": "academic",
+    "customFontSize": 1.1,
+    "availableThemes": [
+      "light",
+      "dark",
+      "academic"
+    ]
+  }
 }

@@ -1,0 +1,265 @@
+/* Dark Theme for ArXiv Reader */
+:root.theme-dark {
+    /* Color Variables */
+    --primary-color: #4dabf7;
+    --secondary-color: #adb5bd;
+    --success-color: #51cf66;
+    --danger-color: #ff6b6b;
+    --warning-color: #ffd43b;
+    --info-color: #74c0fc;
+    --light-color: #343a40;
+    --dark-color: #f8f9fa;
+    
+    /* Background Colors */
+    --bs-body-bg: #1a1d23;
+    --bs-body-color: #e9ecef;
+    
+    /* Surface Colors */
+    --surface-color: #25262b;
+    --surface-hover: #2c2e33;
+    --border-color: #373a40;
+    --text-muted: #adb5bd;
+    
+    /* Paper Content */
+    --paper-bg: #25262b;
+    --paper-text: #e9ecef;
+    --paper-heading: #f8f9fa;
+    --paper-abstract-bg: #2c2e33;
+    
+    /* Interactive Elements */
+    --btn-bg: #495057;
+    --btn-border: #6c757d;
+    --btn-hover-bg: #5a6268;
+    
+    /* Card Elements */
+    --card-bg: #25262b;
+    --card-border: #373a40;
+    --card-hover-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+/* Body and base elements */
+.theme-dark body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+/* Navigation */
+.theme-dark .navbar {
+    background-color: var(--surface-color) !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.theme-dark .navbar-brand,
+.theme-dark .nav-link {
+    color: var(--bs-body-color) !important;
+}
+
+.theme-dark .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Sidebar */
+.theme-dark .sidebar {
+    background-color: var(--surface-color);
+    border-right: 1px solid var(--border-color);
+}
+
+/* Cards */
+.theme-dark .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--bs-body-color);
+}
+
+.theme-dark .card:hover {
+    box-shadow: var(--card-hover-shadow);
+}
+
+.theme-dark .card-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Paper cards */
+.theme-dark .paper-title {
+    color: var(--paper-heading);
+}
+
+.theme-dark .paper-authors {
+    color: var(--text-muted);
+}
+
+.theme-dark .paper-abstract {
+    color: var(--paper-text);
+}
+
+/* Buttons */
+.theme-dark .btn {
+    border-color: var(--btn-border);
+}
+
+.theme-dark .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.theme-dark .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.theme-dark .btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #000;
+}
+
+.theme-dark .btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #000;
+}
+
+.theme-dark .btn-outline-secondary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.theme-dark .btn-outline-secondary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #000;
+}
+
+/* Forms */
+.theme-dark .form-control {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-dark .form-control:focus {
+    background-color: var(--surface-color);
+    border-color: var(--primary-color);
+    color: var(--bs-body-color);
+    box-shadow: 0 0 0 0.2rem rgba(77, 171, 247, 0.25);
+}
+
+.theme-dark .form-select {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+/* Paper content */
+.theme-dark .paper-content {
+    background-color: var(--paper-bg);
+    color: var(--paper-text);
+    border: 1px solid var(--border-color);
+}
+
+.theme-dark .arxiv-content {
+    color: var(--paper-text);
+}
+
+.theme-dark .arxiv-content h1,
+.theme-dark .arxiv-content h2,
+.theme-dark .arxiv-content h3,
+.theme-dark .arxiv-content h4,
+.theme-dark .arxiv-content h5,
+.theme-dark .arxiv-content h6 {
+    color: var(--paper-heading);
+}
+
+.theme-dark .arxiv-content .ltx_abstract {
+    background-color: var(--paper-abstract-bg);
+    border: 1px solid var(--border-color);
+}
+
+.theme-dark .arxiv-content table {
+    color: var(--paper-text);
+}
+
+.theme-dark .arxiv-content table th {
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-color);
+}
+
+.theme-dark .arxiv-content table td {
+    border: 1px solid var(--border-color);
+}
+
+/* Table of contents */
+.theme-dark .paper-toc {
+    background-color: var(--surface-color);
+}
+
+.theme-dark .toc-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.theme-dark .toc-item a {
+    color: var(--bs-body-color);
+}
+
+.theme-dark .toc-item a:hover {
+    color: var(--primary-color);
+}
+
+/* Alerts and badges */
+.theme-dark .alert-light {
+    background-color: var(--surface-hover);
+    border-color: var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-dark .badge.bg-secondary {
+    background-color: var(--secondary-color) !important;
+    color: #000;
+}
+
+/* Keywords */
+.theme-dark .keyword-tag {
+    background-color: var(--primary-color);
+    color: #000;
+}
+
+.theme-dark .keyword-tag:hover {
+    background-color: #339af0;
+}
+
+/* Loading and overlays */
+.theme-dark .loading-overlay {
+    background-color: rgba(26, 29, 35, 0.8);
+}
+
+/* Toast notifications */
+.theme-dark .toast {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-dark .toast-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Scrollbars (webkit) */
+.theme-dark ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.theme-dark ::-webkit-scrollbar-track {
+    background: var(--surface-color);
+}
+
+.theme-dark ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.theme-dark ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}

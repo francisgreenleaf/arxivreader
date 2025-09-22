@@ -1,0 +1,204 @@
+/* Light Theme for ArXiv Reader */
+:root.theme-light {
+    /* Color Variables - Default light theme colors */
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    
+    /* Background Colors */
+    --bs-body-bg: #ffffff;
+    --bs-body-color: #212529;
+    
+    /* Surface Colors */
+    --surface-color: #f8f9fa;
+    --surface-hover: #e9ecef;
+    --border-color: #dee2e6;
+    --text-muted: #6c757d;
+    
+    /* Paper Content */
+    --paper-bg: #ffffff;
+    --paper-text: #212529;
+    --paper-heading: #343a40;
+    --paper-abstract-bg: #f8f9fa;
+    
+    /* Interactive Elements */
+    --btn-bg: #007bff;
+    --btn-border: #007bff;
+    --btn-hover-bg: #0056b3;
+    
+    /* Card Elements */
+    --card-bg: #ffffff;
+    --card-border: #dee2e6;
+    --card-hover-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Light theme is the default, so most styles are already defined in base styles.css */
+/* These are specific overrides to ensure consistency */
+
+.theme-light body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+/* Navigation */
+.theme-light .navbar {
+    background-color: var(--primary-color) !important;
+}
+
+.theme-light .navbar-brand,
+.theme-light .nav-link {
+    color: white !important;
+}
+
+.theme-light .nav-link:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Sidebar */
+.theme-light .sidebar {
+    background-color: var(--surface-color);
+    border-right: 1px solid var(--border-color);
+}
+
+/* Cards */
+.theme-light .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--bs-body-color);
+}
+
+.theme-light .card:hover {
+    box-shadow: var(--card-hover-shadow);
+}
+
+.theme-light .card-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Paper cards */
+.theme-light .paper-title {
+    color: var(--paper-heading);
+}
+
+.theme-light .paper-authors {
+    color: var(--text-muted);
+}
+
+.theme-light .paper-abstract {
+    color: var(--paper-text);
+}
+
+/* Forms */
+.theme-light .form-control {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-light .form-control:focus {
+    background-color: var(--card-bg);
+    border-color: var(--primary-color);
+    color: var(--bs-body-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.theme-light .form-select {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+/* Paper content */
+.theme-light .paper-content {
+    background-color: var(--paper-bg);
+    color: var(--paper-text);
+    border: 1px solid var(--border-color);
+}
+
+.theme-light .arxiv-content {
+    color: var(--paper-text);
+}
+
+.theme-light .arxiv-content h1,
+.theme-light .arxiv-content h2,
+.theme-light .arxiv-content h3,
+.theme-light .arxiv-content h4,
+.theme-light .arxiv-content h5,
+.theme-light .arxiv-content h6 {
+    color: var(--paper-heading);
+}
+
+.theme-light .arxiv-content .ltx_abstract {
+    background-color: var(--paper-abstract-bg);
+    border: 1px solid var(--border-color);
+}
+
+.theme-light .arxiv-content table {
+    color: var(--paper-text);
+}
+
+.theme-light .arxiv-content table th {
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-color);
+}
+
+.theme-light .arxiv-content table td {
+    border: 1px solid var(--border-color);
+}
+
+/* Table of contents */
+.theme-light .paper-toc {
+    background-color: var(--surface-color);
+}
+
+.theme-light .toc-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.theme-light .toc-item a {
+    color: var(--paper-heading);
+}
+
+.theme-light .toc-item a:hover {
+    color: var(--primary-color);
+}
+
+/* Alerts and badges */
+.theme-light .alert-light {
+    background-color: var(--paper-abstract-bg);
+    border-color: var(--border-color);
+    color: var(--bs-body-color);
+}
+
+/* Keywords */
+.theme-light .keyword-tag {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.theme-light .keyword-tag:hover {
+    background-color: var(--btn-hover-bg);
+}
+
+/* Loading and overlays */
+.theme-light .loading-overlay {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Toast notifications */
+.theme-light .toast {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-light .toast-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+}

@@ -1,10 +1,13 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import json
 import os
 from typing import Dict, List
 from arxiv_client import ArxivClient
 from html_processor import HTMLProcessor
+from chatbot_service import ChatbotService, ChatbotConfig, ChatMessage
+from chat_storage import ChatStorage
+from paper_context_manager import PaperContextManager
 import time
 
 app = Flask(__name__)
@@ -29,11 +32,46 @@ def load_preferences() -> Dict:
     try:
         if os.path.exists(PREFERENCES_FILE):
             with open(PREFERENCES_FILE, 'r') as f:
-                return json.load(f)
+                preferences = json.load(f)
+                # Ensure theme preferences exist with defaults
+                if 'theme_preferences' not in preferences:
+                    preferences['theme_preferences'] = {
+                        "selectedTheme": "light",
+                        "customFontSize": 1.0,
+                        "availableThemes": ["light", "dark", "academic"]
+                    }
+                # Ensure chatbot preferences exist with defaults
+                if 'chatbot_config' not in preferences:
+                    preferences['chatbot_config'] = {
+                        "provider": "",
+                        "api_key_encrypted": "",
+                        "model": "",
+                        "max_tokens": 4000,
+                        "temperature": 0.7,
+                        "is_configured": False
+                    }
+                return preferences
     except Exception as e:
         print(f"Error loading preferences: {e}")
-    
-    return {"keywords": [], "max_results": 50, "saved_papers": []}
+
+    return {
+        "keywords": [],
+        "max_results": 50,
+        "saved_papers": [],
+        "theme_preferences": {
+            "selectedTheme": "light",
+            "customFontSize": 1.0,
+            "availableThemes": ["light", "dark", "academic"]
+        },
+        "chatbot_config": {
+            "provider": "",
+            "api_key_encrypted": "",
+            "model": "",
+            "max_tokens": 4000,
+            "temperature": 0.7,
+            "is_configured": False
+        }
+    }
 
 def save_preferences(preferences: Dict):
     """Save user preferences to file"""
@@ -323,6 +361,404 @@ def clear_cache():
         return jsonify({
             "success": True,
             "message": "Cache cleared successfully"
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+# Initialize chatbot services
+chat_storage = ChatStorage()
+context_manager = PaperContextManager()
+
+def get_chatbot_service() -> ChatbotService:
+    """Get configured chatbot service instance"""
+    preferences = load_preferences()
+    chatbot_config = preferences.get('chatbot_config', {})
+    
+    if not chatbot_config.get('is_configured') or not chatbot_config.get('api_key_encrypted'):
+        return None
+    
+    # Create temporary service to decrypt API key
+    temp_service = ChatbotService()
+    try:
+        decrypted_key = temp_service.decrypt_api_key(chatbot_config['api_key_encrypted'])
+        
+        config = ChatbotConfig(
+            provider=chatbot_config['provider'],
+            api_key=decrypted_key,
+            model=chatbot_config['model'],
+            max_tokens=chatbot_config.get('max_tokens', 4000),
+            temperature=chatbot_config.get('temperature', 0.7)
+        )
+        
+        return ChatbotService(config)
+    except Exception as e:
+        print(f"Error creating chatbot service: {e}")
+        return None
+
+@app.route('/api/chatbot/configure', methods=['POST'])
+def configure_chatbot():
+    """Configure chatbot settings and API keys"""
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({
+                "success": False,
+                "error": "No configuration data provided"
+            }), 400
+        
+        provider = data.get('provider')
+        api_key = data.get('api_key')
+        model = data.get('model')
+        
+        if not all([provider, api_key, model]):
+            return jsonify({
+                "success": False,
+                "error": "Provider, API key, and model are required"
+            }), 400
+        
+        # Validate API key
+        chatbot_service = ChatbotService()
+        if not chatbot_service.validate_api_key(provider, api_key):
+            return jsonify({
+                "success": False,
+                "error": "Invalid API key or unable to connect to the service"
+            }), 400
+        
+        # Encrypt API key for storage
+        encrypted_key = chatbot_service.encrypt_api_key(api_key)
+        
+        # Load and update preferences
+        preferences = load_preferences()
+        preferences['chatbot_config'] = {
+            "provider": provider,
+            "api_key_encrypted": encrypted_key,
+            "model": model,
+            "max_tokens": data.get('max_tokens', 4000),
+            "temperature": data.get('temperature', 0.7),
+            "is_configured": True
+        }
+        
+        save_preferences(preferences)
+        
+        return jsonify({
+            "success": True,
+            "message": "Chatbot configured successfully",
+            "config": {
+                "provider": provider,
+                "model": model,
+                "max_tokens": data.get('max_tokens', 4000),
+                "temperature": data.get('temperature', 0.7),
+                "is_configured": True
+            }
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/models/<provider>', methods=['GET'])
+def get_available_models(provider):
+    """Get available models for a provider"""
+    try:
+        chatbot_service = ChatbotService()
+        models = chatbot_service.get_available_models(provider)
+        
+        return jsonify({
+            "success": True,
+            "models": models
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/validate-paper/<arxiv_id>', methods=['GET'])
+def validate_paper_for_chat(arxiv_id):
+    """Validate if paper is suitable for chat"""
+    try:
+        validation = context_manager.validate_paper_for_chat(arxiv_id)
+        return jsonify({
+            "success": True,
+            "validation": validation
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/threads/<paper_id>', methods=['GET'])
+def get_paper_threads(paper_id):
+    """Get all chat threads for a paper"""
+    try:
+        threads = chat_storage.get_paper_threads(paper_id)
+        
+        return jsonify({
+            "success": True,
+            "threads": [thread.to_dict() for thread in threads]
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/thread', methods=['POST'])
+def create_chat_thread():
+    """Create new chat thread"""
+    try:
+        data = request.get_json()
+        
+        if not data or 'paper_id' not in data or 'title' not in data:
+            return jsonify({
+                "success": False,
+                "error": "Paper ID and title are required"
+            }), 400
+        
+        paper_id = data['paper_id']
+        title = data['title']
+        
+        # Validate paper first
+        validation = context_manager.validate_paper_for_chat(paper_id)
+        if not validation.get('valid'):
+            return jsonify({
+                "success": False,
+                "error": validation.get('reason', 'Paper not suitable for chat')
+            }), 400
+        
+        thread = chat_storage.create_thread(paper_id, title)
+        
+        return jsonify({
+            "success": True,
+            "thread": thread.to_dict()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/thread/<thread_id>/history', methods=['GET'])
+def get_thread_history(thread_id):
+    """Get message history for a thread"""
+    try:
+        messages = chat_storage.get_thread_history(thread_id)
+        
+        return jsonify({
+            "success": True,
+            "messages": [msg.to_dict() for msg in messages]
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/send', methods=['POST'])
+def send_chat_message():
+    """Send message to chatbot"""
+    try:
+        data = request.get_json()
+        
+        if not data or 'message' not in data or 'thread_id' not in data:
+            return jsonify({
+                "success": False,
+                "error": "Message and thread ID are required"
+            }), 400
+        
+        user_message = data['message']
+        thread_id = data['thread_id']
+        
+        # Get chatbot service
+        chatbot_service = get_chatbot_service()
+        if not chatbot_service:
+            return jsonify({
+                "success": False,
+                "error": "Chatbot not configured. Please configure your API keys in settings."
+            }), 400
+        
+        # Extract paper ID from thread ID
+        parts = thread_id.split('_')
+        if len(parts) < 3:
+            return jsonify({
+                "success": False,
+                "error": "Invalid thread ID"
+            }), 400
+        
+        paper_id = '_'.join(parts[1:-1])
+        
+        # Get paper context
+        context = context_manager.extract_paper_context(paper_id)
+        
+        # Get conversation history
+        history = chat_storage.get_thread_history(thread_id)
+        
+        # Create user message
+        user_msg = ChatMessage(
+            id=f"msg_{int(time.time() * 1000)}",
+            thread_id=thread_id,
+            role="user",
+            content=user_message,
+            timestamp=time.time()
+        )
+        
+        # Save user message
+        chat_storage.save_message(thread_id, user_msg)
+        
+        # Get AI response
+        ai_response = chatbot_service.send_message(user_message, context, history)
+        
+        # Save AI response
+        chat_storage.save_message(thread_id, ai_response)
+        
+        return jsonify({
+            "success": True,
+            "user_message": user_msg.to_dict(),
+            "ai_response": ai_response.to_dict()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/stream', methods=['POST'])
+def stream_chat_message():
+    """Stream chatbot response"""
+    try:
+        data = request.get_json()
+        
+        if not data or 'message' not in data or 'thread_id' not in data:
+            return jsonify({
+                "success": False,
+                "error": "Message and thread ID are required"
+            }), 400
+        
+        user_message = data['message']
+        thread_id = data['thread_id']
+        
+        # Get chatbot service
+        chatbot_service = get_chatbot_service()
+        if not chatbot_service:
+            return jsonify({
+                "success": False,
+                "error": "Chatbot not configured"
+            }), 400
+        
+        # Extract paper ID from thread ID
+        parts = thread_id.split('_')
+        if len(parts) < 3:
+            return jsonify({
+                "success": False,
+                "error": "Invalid thread ID"
+            }), 400
+        
+        paper_id = '_'.join(parts[1:-1])
+        
+        # Get paper context and history
+        context = context_manager.extract_paper_context(paper_id)
+        history = chat_storage.get_thread_history(thread_id)
+        
+        # Save user message
+        user_msg = ChatMessage(
+            id=f"msg_{int(time.time() * 1000)}",
+            thread_id=thread_id,
+            role="user",
+            content=user_message,
+            timestamp=time.time()
+        )
+        chat_storage.save_message(thread_id, user_msg)
+        
+        def generate_response():
+            full_response = ""
+            try:
+                for chunk in chatbot_service.stream_response(user_message, context, history):
+                    full_response += chunk
+                    yield f"data: {json.dumps({'chunk': chunk})}\n\n"
+                
+                # Save complete response
+                ai_msg = ChatMessage(
+                    id=f"msg_{int(time.time() * 1000)}",
+                    thread_id=thread_id,
+                    role="assistant",
+                    content=full_response,
+                    timestamp=time.time()
+                )
+                chat_storage.save_message(thread_id, ai_msg)
+                
+                yield f"data: {json.dumps({'done': True, 'message_id': ai_msg.id})}\n\n"
+                
+            except Exception as e:
+                yield f"data: {json.dumps({'error': str(e)})}\n\n"
+        
+        return Response(generate_response(), mimetype='text/event-stream')
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/thread/<thread_id>', methods=['DELETE'])
+def delete_chat_thread(thread_id):
+    """Delete a chat thread"""
+    try:
+        chat_storage.delete_thread(thread_id)
+        
+        return jsonify({
+            "success": True,
+            "message": "Thread deleted successfully"
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/thread/<thread_id>/export', methods=['GET'])
+def export_chat_thread(thread_id):
+    """Export chat thread"""
+    try:
+        format_type = request.args.get('format', 'json')
+        
+        export_data = chat_storage.export_thread(thread_id, format_type)
+        
+        return jsonify({
+            "success": True,
+            "export_data": export_data,
+            "format": format_type
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/chatbot/stats', methods=['GET'])
+def get_chat_stats():
+    """Get chatbot usage statistics"""
+    try:
+        stats = chat_storage.get_stats()
+        
+        return jsonify({
+            "success": True,
+            "stats": stats
         })
         
     except Exception as e:

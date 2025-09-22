@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
+    <link href="css/chatbot.css" rel="stylesheet">
     
     <!-- MathJax for mathematical expressions -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -120,7 +121,7 @@
                         <i class="fas fa-graduation-cap display-1 text-primary mb-4"></i>
                         <h1 class="display-4 mb-3">Welcome to ArXiv Reader</h1>
                         <p class="lead mb-4">
-                            Discover and read academic papers from arXiv with beautiful HTML formatting
+                            Discover and read academic papers from arXiv with beautiful HTML formatting and AI-powered discussions
                         </p>
                         <div class="row justify-content-center">
                             <div class="col-md-8">
@@ -131,6 +132,7 @@
                                             <li>Add keywords related to your interests</li>
                                             <li>Click "Search Papers" to find relevant research</li>
                                             <li>Browse paper summaries and read full HTML versions</li>
+                                            <li>Configure AI chatbot in settings to discuss papers</li>
                                             <li>Save papers you find interesting for later reading</li>
                                         </ol>
                                     </div>
@@ -178,6 +180,9 @@
                         </button>
                         
                         <div class="paper-actions float-end">
+                            <button class="btn btn-outline-success" id="chat-paper-btn" style="display: none;" title="Chat about this paper">
+                                <i class="fas fa-comments me-1"></i>Chat with AI
+                            </button>
                             <button class="btn btn-outline-primary" id="save-paper-btn">
                                 <i class="fas fa-bookmark me-1"></i>Save Paper
                             </button>
@@ -211,7 +216,7 @@
                     <h2>Settings</h2>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="card">
+                            <div class="card mb-3">
                                 <div class="card-header">
                                     <h5>Preferences</h5>
                                 </div>
@@ -232,9 +237,91 @@
                                     </form>
                                 </div>
                             </div>
+
+                            <!-- Theme Settings -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-palette me-2"></i>Theme & Appearance</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="theme-select" class="form-label">Visual Theme</label>
+                                        <select class="form-select" id="theme-select">
+                                            <option value="light">Light Theme</option>
+                                            <option value="dark">Dark Theme</option>
+                                            <option value="academic">Academic Theme</option>
+                                        </select>
+                                        <div class="form-text">Choose a visual theme that suits your reading preference.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="font-size-range" class="form-label">Font Size</label>
+                                        <input type="range" class="form-range" id="font-size-range" 
+                                               min="0.8" max="1.5" step="0.1" value="1.0">
+                                        <div class="d-flex justify-content-between">
+                                            <small class="text-muted">Smaller</small>
+                                            <small class="text-muted" id="font-size-value">100%</small>
+                                            <small class="text-muted">Larger</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="col-md-6">
+                            <!-- AI Chatbot Settings -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-robot me-2"></i>AI Chatbot</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-info alert-sm">
+                                        <small><i class="fas fa-info-circle me-1"></i>Configure your AI provider to enable paper discussions</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="ai-provider" class="form-label">AI Provider</label>
+                                        <select class="form-select" id="ai-provider">
+                                            <option value="">Select Provider...</option>
+                                            <option value="openai">OpenAI (GPT)</option>
+                                            <option value="anthropic">Anthropic (Claude)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="ai-api-key" class="form-label">API Key</label>
+                                        <input type="password" class="form-control" id="ai-api-key" placeholder="Enter your API key...">
+                                        <div class="form-text">Your API key is encrypted and stored securely</div>
+                                    </div>
+                                    
+                                    <div class="mb-3" id="ai-model-section" style="display: none;">
+                                        <label for="ai-model" class="form-label">Model</label>
+                                        <select class="form-select" id="ai-model">
+                                            <!-- Models populated dynamically -->
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="row mb-3" id="ai-advanced-section" style="display: none;">
+                                        <div class="col-6">
+                                            <label for="ai-max-tokens" class="form-label">Max Tokens</label>
+                                            <input type="number" class="form-control" id="ai-max-tokens" value="4000" min="100" max="8000">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="ai-temperature" class="form-label">Temperature</label>
+                                            <input type="range" class="form-range" id="ai-temperature" min="0" max="1" step="0.1" value="0.7">
+                                            <small class="text-muted" id="temperature-value">0.7</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary" id="configure-ai-btn" disabled>
+                                            <i class="fas fa-cog me-1"></i>Configure AI
+                                        </button>
+                                        <div id="ai-status" class="text-center"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="card">
                                 <div class="card-header">
                                     <h5>Cache Management</h5>
@@ -253,6 +340,14 @@
         </div>
     </main>
 
+    <!-- Chatbot Container -->
+    <div id="chatbot-interface" style="display: none;"></div>
+
+    <!-- Chat Button -->
+    <button class="chat-button" id="chat-button" style="display: none;" title="Chat about this paper">
+        <i class="fas fa-comments"></i>
+    </button>
+
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="toast" class="toast" role="alert">
@@ -268,6 +363,9 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/theme-manager.js"></script>
+    <script src="js/chatbot-api-client.js"></script>
+    <script src="js/chatbot-ui.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

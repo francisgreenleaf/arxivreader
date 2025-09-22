@@ -1,0 +1,413 @@
+/* Academic Theme for ArXiv Reader */
+:root.theme-academic {
+    /* Color Variables - Traditional academic colors */
+    --primary-color: #8b4513;
+    --secondary-color: #696969;
+    --success-color: #228b22;
+    --danger-color: #b22222;
+    --warning-color: #daa520;
+    --info-color: #4682b4;
+    --light-color: #f5f5dc;
+    --dark-color: #2f4f4f;
+    
+    /* Background Colors - Warm, paper-like tones */
+    --bs-body-bg: #fefcf8;
+    --bs-body-color: #2f2f2f;
+    
+    /* Surface Colors */
+    --surface-color: #faf8f3;
+    --surface-hover: #f5f3ee;
+    --border-color: #e0ddd6;
+    --text-muted: #666666;
+    
+    /* Paper Content */
+    --paper-bg: #ffffff;
+    --paper-text: #2f2f2f;
+    --paper-heading: #1a1a1a;
+    --paper-abstract-bg: #f9f7f4;
+    
+    /* Interactive Elements */
+    --btn-bg: #8b4513;
+    --btn-border: #a0522d;
+    --btn-hover-bg: #a0522d;
+    
+    /* Card Elements */
+    --card-bg: #ffffff;
+    --card-border: #e0ddd6;
+    --card-hover-shadow: 0 0.5rem 1rem rgba(139, 69, 19, 0.15);
+}
+
+/* Typography overrides for academic theme */
+.theme-academic {
+    font-family: var(--font-family-base, "Times New Roman", Times, "Liberation Serif", serif);
+}
+
+/* Body and base elements */
+.theme-academic body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    line-height: 1.7;
+}
+
+/* Navigation */
+.theme-academic .navbar {
+    background-color: var(--surface-color) !important;
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+.theme-academic .navbar-brand {
+    color: var(--primary-color) !important;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.theme-academic .nav-link {
+    color: var(--bs-body-color) !important;
+    font-weight: 500;
+}
+
+.theme-academic .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Sidebar */
+.theme-academic .sidebar {
+    background-color: var(--surface-color);
+    border-right: 2px solid var(--border-color);
+}
+
+/* Headings */
+.theme-academic h1,
+.theme-academic h2,
+.theme-academic h3,
+.theme-academic h4,
+.theme-academic h5,
+.theme-academic h6 {
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-weight: bold;
+    color: var(--paper-heading);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.theme-academic h1 {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+/* Cards */
+.theme-academic .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--bs-body-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.theme-academic .card:hover {
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-1px);
+}
+
+.theme-academic .card-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* Paper cards */
+.theme-academic .paper-title {
+    color: var(--paper-heading);
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+.theme-academic .paper-authors {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+.theme-academic .paper-abstract {
+    color: var(--paper-text);
+    text-align: justify;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Buttons */
+.theme-academic .btn {
+    border-radius: 2px;
+    font-weight: 500;
+}
+
+.theme-academic .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.theme-academic .btn-primary:hover {
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-bg);
+}
+
+.theme-academic .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.theme-academic .btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.theme-academic .btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+
+.theme-academic .btn-outline-secondary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* Forms */
+.theme-academic .form-control {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+    border-radius: 2px;
+}
+
+.theme-academic .form-control:focus {
+    background-color: var(--surface-color);
+    border-color: var(--primary-color);
+    color: var(--bs-body-color);
+    box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+}
+
+.theme-academic .form-select {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+    border-radius: 2px;
+}
+
+/* Paper content */
+.theme-academic .paper-content {
+    background-color: var(--paper-bg);
+    color: var(--paper-text);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.theme-academic .arxiv-content {
+    color: var(--paper-text);
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.theme-academic .arxiv-content h1,
+.theme-academic .arxiv-content h2,
+.theme-academic .arxiv-content h3,
+.theme-academic .arxiv-content h4,
+.theme-academic .arxiv-content h5,
+.theme-academic .arxiv-content h6 {
+    color: var(--paper-heading);
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.theme-academic .arxiv-content h1 {
+    font-size: 2.2rem;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 1rem;
+}
+
+.theme-academic .arxiv-content h2 {
+    font-size: 1.6rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.theme-academic .arxiv-content h3 {
+    font-size: 1.3rem;
+}
+
+.theme-academic .arxiv-content p {
+    margin-bottom: 1.2rem;
+    text-indent: 2em;
+}
+
+.theme-academic .arxiv-content .ltx_abstract {
+    background-color: var(--paper-abstract-bg);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    padding: 2rem;
+    margin: 2rem 0;
+    font-style: italic;
+}
+
+.theme-academic .arxiv-content .ltx_abstract h6 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: var(--primary-color);
+    text-align: center;
+    font-style: normal;
+}
+
+.theme-academic .arxiv-content .ltx_abstract p {
+    text-indent: 0;
+    font-style: italic;
+}
+
+/* Tables */
+.theme-academic .arxiv-content table {
+    color: var(--paper-text);
+    margin: 2rem auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--border-color);
+}
+
+.theme-academic .arxiv-content table th {
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-color);
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+}
+
+.theme-academic .arxiv-content table td {
+    border: 1px solid var(--border-color);
+    padding: 0.8rem;
+}
+
+/* Figures */
+.theme-academic .arxiv-content figure,
+.theme-academic .arxiv-content .ltx_figure {
+    margin: 2rem auto;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    background-color: var(--surface-color);
+}
+
+.theme-academic .arxiv-content figcaption,
+.theme-academic .arxiv-content .ltx_caption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+}
+
+/* Math content */
+.theme-academic .arxiv-content .ltx_Math {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.theme-academic .arxiv-content .ltx_equation {
+    margin: 2rem 0;
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--surface-color);
+    border-left: 4px solid var(--info-color);
+}
+
+/* Table of contents */
+.theme-academic .paper-toc {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+}
+
+.theme-academic .toc-item {
+    border-bottom: 1px dotted var(--border-color);
+    padding: 0.5rem 0;
+}
+
+.theme-academic .toc-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.theme-academic .toc-item a:hover {
+    color: var(--btn-hover-bg);
+    text-decoration: underline;
+}
+
+/* Alerts and badges */
+.theme-academic .alert-light {
+    background-color: var(--paper-abstract-bg);
+    border-color: var(--border-color);
+    color: var(--bs-body-color);
+    border-left: 4px solid var(--info-color);
+}
+
+.theme-academic .badge.bg-secondary {
+    background-color: var(--secondary-color) !important;
+    color: white;
+}
+
+/* Keywords */
+.theme-academic .keyword-tag {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 2px;
+    font-weight: 500;
+}
+
+.theme-academic .keyword-tag:hover {
+    background-color: var(--btn-hover-bg);
+}
+
+/* References */
+.theme-academic .arxiv-content .ltx_bibliography {
+    margin-top: 3rem;
+    border-top: 2px solid var(--primary-color);
+    padding-top: 2rem;
+}
+
+.theme-academic .arxiv-content .ltx_bibitem {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: justify;
+    padding-left: 2rem;
+    text-indent: -2rem;
+}
+
+/* Print optimizations for academic theme */
+@media print {
+    .theme-academic .arxiv-content {
+        font-size: 12pt;
+        line-height: 1.6;
+    }
+    
+    .theme-academic .arxiv-content h1 {
+        font-size: 18pt;
+    }
+    
+    .theme-academic .arxiv-content h2 {
+        font-size: 14pt;
+    }
+    
+    .theme-academic .arxiv-content h3 {
+        font-size: 12pt;
+    }
+}
