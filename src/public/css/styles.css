@@ -14,9 +14,10 @@
 
 /* General Styles */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-family-base, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
     line-height: 1.6;
     background-color: #f8f9fa;
+    font-size: calc(1rem * var(--font-size-multiplier, 1.0));
 }
 
 /* Sidebar */

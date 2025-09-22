@@ -6,11 +6,21 @@ class ArxivReaderApp {
         this.currentPaper = null;
         this.searchParams = null;
         this.savedPapers = [];
+        this.themeManager = null;
+        this.chatbot = null;
+        this.chatbotAPI = null;
+        this.isChatbotConfigured = false;
         
         this.init();
     }
 
     async init() {
+        // Initialize themes first
+        await this.initializeThemes();
+        
+        // Initialize chatbot
+        await this.initializeChatbot();
+        
         // Load preferences
         await this.loadPreferences();
         
@@ -102,6 +112,137 @@ class ArxivReaderApp {
         document.getElementById('clear-cache-btn').addEventListener('click', () => {
             this.clearCache();
         });
+
+        // Theme controls
+        document.getElementById('theme-select').addEventListener('change', (e) => {
+            this.handleThemeChange(e.target.value);
+        });
+
+        document.getElementById('font-size-range').addEventListener('input', (e) => {
+            const multiplier = parseFloat(e.target.value);
+            this.handleFontSizeChange(multiplier);
+        });
+
+        // Setup chatbot event listeners
+        this.setupChatbotEventListeners();
+    }
+
+    setupChatbotEventListeners() {
+        // Chat paper button (in paper viewer)
+        const chatPaperBtn = document.getElementById('chat-paper-btn');
+        if (chatPaperBtn) {
+            chatPaperBtn.addEventListener('click', () => {
+                this.openChatForCurrentPaper();
+            });
+        }
+
+        // Floating chat button
+        const chatButton = document.getElementById('chat-button');
+        if (chatButton) {
+            chatButton.addEventListener('click', () => {
+                this.openChatForCurrentPaper();
+            });
+        }
+
+        // AI configuration form
+        const aiProvider = document.getElementById('ai-provider');
+        const aiApiKey = document.getElementById('ai-api-key');
+        const aiModel = document.getElementById('ai-model');
+        const configureAIBtn = document.getElementById('configure-ai-btn');
+        const temperatureSlider = document.getElementById('ai-temperature');
+
+        if (aiProvider) {
+            aiProvider.addEventListener('change', (e) => {
+                this.handleAIProviderChange(e.target.value);
+            });
+        }
+
+        if (aiApiKey) {
+            aiApiKey.addEventListener('input', (e) => {
+                this.updateConfigureButtonState();
+            });
+        }
+
+        if (configureAIBtn) {
+            configureAIBtn.addEventListener('click', () => {
+                this.configureAI();
+            });
+        }
+
+        if (temperatureSlider) {
+            temperatureSlider.addEventListener('input', (e) => {
+                this.updateTemperatureDisplay(parseFloat(e.target.value));
+            });
+        }
+    }
+
+    // Chatbot Initialization
+    async initializeChatbot() {
+        try {
+            this.chatbotAPI = new ChatbotAPIClient();
+            this.chatbot = new ChatbotUI('chatbot-interface', this.chatbotAPI);
+            
+            // Load chatbot configuration status
+            await this.loadChatbotConfig();
+            
+            console.log('Chatbot initialized');
+        } catch (error) {
+            console.error('Failed to initialize chatbot:', error);
+        }
+    }
+
+    async loadChatbotConfig() {
+        try {
+            const response = await fetch('/api/preferences');
+            const data = await response.json();
+            
+            if (data.success && data.preferences.chatbot_config) {
+                const config = data.preferences.chatbot_config;
+                this.isChatbotConfigured = config.is_configured || false;
+                
+                // Update UI based on configuration
+                this.updateChatbotUI(config);
+            }
+        } catch (error) {
+            console.error('Failed to load chatbot config:', error);
+        }
+    }
+
+    updateChatbotUI(config) {
+        // Update settings form
+        const providerSelect = document.getElementById('ai-provider');
+        const modelSelect = document.getElementById('ai-model');
+        const maxTokensInput = document.getElementById('ai-max-tokens');
+        const temperatureSlider = document.getElementById('ai-temperature');
+        const statusDiv = document.getElementById('ai-status');
+
+        if (providerSelect) {
+            providerSelect.value = config.provider || '';
+            if (config.provider) {
+                this.handleAIProviderChange(config.provider);
+            }
+        }
+
+        if (modelSelect && config.model) {
+            modelSelect.value = config.model;
+        }
+
+        if (maxTokensInput) {
+            maxTokensInput.value = config.max_tokens || 4000;
+        }
+
+        if (temperatureSlider) {
+            temperatureSlider.value = config.temperature || 0.7;
+            this.updateTemperatureDisplay(config.temperature || 0.7);
+        }
+
+        if (statusDiv) {
+            if (this.isChatbotConfigured) {
+                statusDiv.innerHTML = '<small class="text-success"><i class="fas fa-check me-1"></i>AI Configured</small>';
+            } else {
+                statusDiv.innerHTML = '<small class="text-muted">Configure your AI provider above</small>';
+            }
+        }
     }
 
     // Keywords Management
@@ -401,6 +542,9 @@ class ArxivReaderApp {
     showPaperViewer() {
         this.hideAllScreens();
         document.getElementById('paper-viewer').style.display = 'block';
+        
+        // Update chat button visibility when paper viewer is shown
+        this.updateChatButtonVisibility();
     }
 
     showPapersList() {
@@ -533,6 +677,9 @@ class ArxivReaderApp {
                 <span class="keyword-tag">${keyword}</span>
             `).join('');
         }
+
+        // Load theme settings
+        this.loadThemeSettings();
     }
 
     async saveSettings() {
@@ -625,6 +772,229 @@ class ArxivReaderApp {
         
         const bsToast = new bootstrap.Toast(toast);
         bsToast.show();
+    }
+
+    // Theme Management
+    async initializeThemes() {
+        try {
+            // Initialize ThemeManager
+            this.themeManager = new ThemeManager();
+            
+            // Listen for theme changes
+            document.addEventListener('themeChanged', (event) => {
+                console.log('Theme changed to:', event.detail.themeId);
+            });
+        } catch (error) {
+            console.error('Failed to initialize themes:', error);
+        }
+    }
+
+    async handleThemeChange(themeId) {
+        if (this.themeManager) {
+            const success = await this.themeManager.loadTheme(themeId);
+            if (success) {
+                // Update theme preferences in backend
+                await this.saveThemePreferences();
+                this.showToast(`Theme changed to ${this.themeManager.getCurrentTheme().name}`);
+            } else {
+                this.showToast('Failed to change theme', 'Error');
+            }
+        }
+    }
+
+    async saveThemePreferences() {
+        if (this.themeManager) {
+            try {
+                const themePreferences = this.themeManager.getThemePreferences();
+                await fetch('/api/preferences', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        theme_preferences: themePreferences
+                    })
+                });
+            } catch (error) {
+                console.error('Failed to save theme preferences:', error);
+            }
+        }
+    }
+
+    handleFontSizeChange(multiplier) {
+        if (this.themeManager) {
+            this.themeManager.applyFontSize(multiplier);
+            this.updateFontSizeDisplay(multiplier);
+            // Save preferences after a brief delay to avoid too many requests
+            clearTimeout(this.fontSizeTimeout);
+            this.fontSizeTimeout = setTimeout(() => {
+                this.saveThemePreferences();
+            }, 500);
+        }
+    }
+
+    updateFontSizeDisplay(multiplier) {
+        const display = document.getElementById('font-size-value');
+        if (display) {
+            display.textContent = Math.round(multiplier * 100) + '%';
+        }
+    }
+
+    loadThemeSettings() {
+        if (this.themeManager) {
+            // Update theme selector
+            const themeSelect = document.getElementById('theme-select');
+            if (themeSelect) {
+                themeSelect.value = this.themeManager.currentTheme;
+            }
+
+            // Update font size slider and display
+            const fontSizeSlider = document.getElementById('font-size-range');
+            const currentSize = this.themeManager.getFontSizeMultiplier();
+            if (fontSizeSlider) {
+                fontSizeSlider.value = currentSize;
+            }
+            this.updateFontSizeDisplay(currentSize);
+        }
+    }
+
+    // Chatbot Methods
+    async handleAIProviderChange(provider) {
+        const modelSection = document.getElementById('ai-model-section');
+        const advancedSection = document.getElementById('ai-advanced-section');
+        const modelSelect = document.getElementById('ai-model');
+
+        if (provider) {
+            try {
+                // Load available models for the provider
+                const response = await this.chatbotAPI.getAvailableModels(provider);
+                if (response.success) {
+                    modelSelect.innerHTML = '<option value="">Select Model...</option>';
+                    response.models.forEach(model => {
+                        const option = document.createElement('option');
+                        option.value = model;
+                        option.textContent = model;
+                        modelSelect.appendChild(option);
+                    });
+                    
+                    modelSection.style.display = 'block';
+                    advancedSection.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Failed to load models:', error);
+                this.showToast('Failed to load models for ' + provider, 'Error');
+            }
+        } else {
+            modelSection.style.display = 'none';
+            advancedSection.style.display = 'none';
+        }
+        
+        this.updateConfigureButtonState();
+    }
+
+    updateConfigureButtonState() {
+        const provider = document.getElementById('ai-provider').value;
+        const apiKey = document.getElementById('ai-api-key').value.trim();
+        const model = document.getElementById('ai-model').value;
+        const configureBtn = document.getElementById('configure-ai-btn');
+
+        const isValid = provider && apiKey && model;
+        configureBtn.disabled = !isValid;
+    }
+
+    async configureAI() {
+        const provider = document.getElementById('ai-provider').value;
+        const apiKey = document.getElementById('ai-api-key').value.trim();
+        const model = document.getElementById('ai-model').value;
+        const maxTokens = parseInt(document.getElementById('ai-max-tokens').value);
+        const temperature = parseFloat(document.getElementById('ai-temperature').value);
+        const statusDiv = document.getElementById('ai-status');
+
+        if (!provider || !apiKey || !model) {
+            this.showToast('Please fill in all required fields', 'Error');
+            return;
+        }
+
+        try {
+            statusDiv.innerHTML = '<small class="text-info"><i class="fas fa-spinner fa-spin me-1"></i>Configuring...</small>';
+
+            const response = await this.chatbotAPI.configure({
+                provider: provider,
+                api_key: apiKey,
+                model: model,
+                max_tokens: maxTokens,
+                temperature: temperature
+            });
+
+            if (response.success) {
+                this.isChatbotConfigured = true;
+                statusDiv.innerHTML = '<small class="text-success"><i class="fas fa-check me-1"></i>AI Configured Successfully</small>';
+                this.showToast('AI chatbot configured successfully!');
+                this.updateChatButtonVisibility();
+                
+                // Clear the API key field for security
+                document.getElementById('ai-api-key').value = '';
+            } else {
+                statusDiv.innerHTML = '<small class="text-danger"><i class="fas fa-exclamation-triangle me-1"></i>Configuration Failed</small>';
+                this.showToast(response.error || 'Failed to configure AI', 'Error');
+            }
+        } catch (error) {
+            statusDiv.innerHTML = '<small class="text-danger"><i class="fas fa-exclamation-triangle me-1"></i>Configuration Failed</small>';
+            this.showToast('Failed to configure AI: ' + error.message, 'Error');
+        }
+    }
+
+    updateTemperatureDisplay(value) {
+        const display = document.getElementById('temperature-value');
+        if (display) {
+            display.textContent = value.toFixed(1);
+        }
+    }
+
+    async openChatForCurrentPaper() {
+        if (!this.isChatbotConfigured) {
+            this.showToast('Please configure your AI provider in settings first', 'Error');
+            this.showSettingsPage();
+            return;
+        }
+
+        if (!this.currentPaper) {
+            this.showToast('No paper selected for chat', 'Error');
+            return;
+        }
+
+        const paperId = this.currentPaper.arxiv_id || this.currentPaper.id;
+        if (!paperId) {
+            this.showToast('Unable to identify paper for chat', 'Error');
+            return;
+        }
+
+        try {
+            // Open chat for the current paper
+            await this.chatbot.openChat(paperId);
+        } catch (error) {
+            this.showToast('Failed to open chat: ' + error.message, 'Error');
+        }
+    }
+
+    updateChatButtonVisibility() {
+        const chatPaperBtn = document.getElementById('chat-paper-btn');
+        const floatingChatBtn = document.getElementById('chat-button');
+
+        if (this.isChatbotConfigured) {
+            // Show chat buttons when AI is configured and we have HTML content
+            if (chatPaperBtn && this.currentPaper && (this.currentPaper.content || this.currentPaper.html_available)) {
+                chatPaperBtn.style.display = 'inline-block';
+            }
+            
+            if (floatingChatBtn && this.currentPaper && (this.currentPaper.content || this.currentPaper.html_available)) {
+                floatingChatBtn.style.display = 'flex';
+            }
+        } else {
+            // Hide chat buttons when AI is not configured
+            if (chatPaperBtn) chatPaperBtn.style.display = 'none';
+            if (floatingChatBtn) floatingChatBtn.style.display = 'none';
+        }
     }
 }
 

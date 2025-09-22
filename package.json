@@ -5,29 +5,41 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
-    "backend": "source venv/bin/activate && cd src/backend && python api_server.py",
+    "start": "concurrently \"pnpm run frontend\" \"pnpm run backend\" --names \"frontend,backend\" --prefix-colors \"cyan,yellow\" --kill-others-on-fail",
+    "frontend": "node src/index.js",
+    "backend": "source venv/bin/activate && cd src/backend && python3 api_server.py",
+    "dev": "concurrently \"node --watch src/index.js\" \"source venv/bin/activate && cd src/backend && python3 api_server.py\" --names \"frontend,backend\" --prefix-colors \"cyan,yellow\" --kill-others-on-fail",
+    "dev-frontend": "node --watch src/index.js",
+    "dev-backend": "source venv/bin/activate && cd src/backend && python3 api_server.py",
+    "setup-python": "python3 -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt",
     "install-python": "pip3 install -r requirements.txt",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "echo \"Build script not configured yet\"",
     "clean": "rm -rf node_modules .pnpm-store",
     "reinstall": "pnpm clean && pnpm install"
   },
-  "keywords": ["arxiv", "reader", "papers", "research", "web", "html"],
+  "keywords": [
+    "arxiv",
+    "reader",
+    "papers",
+    "research",
+    "web",
+    "html"
+  ],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.17.1",
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
   },
   "dependencies": {
-    "express": "^4.18.2",
+    "axios": "^1.6.2",
     "cors": "^2.8.5",
-    "axios": "^1.6.2"
+    "express": "^4.18.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "concurrently": "^8.2.2"
   }
 }
