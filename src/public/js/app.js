@@ -56,6 +56,11 @@ class ArxivReaderApp {
             this.showSettingsPage();
         });
 
+        // Search type selector
+        document.getElementById('search-type-select').addEventListener('change', (e) => {
+            this.handleSearchTypeChange(e.target.value);
+        });
+
         // Keywords management
         document.getElementById('keyword-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -65,6 +70,44 @@ class ArxivReaderApp {
         
         document.getElementById('add-keyword').addEventListener('click', () => {
             this.addKeyword();
+        });
+
+        // Search inputs - Enter key support
+        document.getElementById('title-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.searchPapers();
+            }
+        });
+
+        document.getElementById('author-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.searchPapers();
+            }
+        });
+
+        // Advanced search inputs
+        document.getElementById('advanced-title-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.searchPapers();
+            }
+        });
+
+        document.getElementById('advanced-author-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.searchPapers();
+            }
+        });
+
+        document.getElementById('advanced-keywords-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.searchPapers();
+            }
+        });
+
+        document.getElementById('advanced-abstract-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.searchPapers();
+            }
         });
 
         // Search
@@ -279,12 +322,111 @@ class ArxivReaderApp {
         });
     }
 
-    // Search Functionality
+    // Search Type Management
+    handleSearchTypeChange(searchType) {
+        // Hide all search modes
+        const searchModes = document.querySelectorAll('.search-mode');
+        searchModes.forEach(mode => {
+            mode.style.display = 'none';
+        });
+
+        // Show selected search mode
+        const selectedMode = document.getElementById(`${searchType}-search`);
+        if (selectedMode) {
+            selectedMode.style.display = 'block';
+        }
+
+        // Update search button text based on type
+        const searchButton = document.getElementById('search-button');
+        const searchTypeNames = {
+            'keywords': 'Search by Keywords',
+            'title': 'Search by Title',
+            'author': 'Search by Author',
+            'advanced': 'Advanced Search'
+        };
+        
+        searchButton.innerHTML = `<i class="fas fa-search me-1"></i>${searchTypeNames[searchType] || 'Search Papers'}`;
+    }
+
+    // Enhanced Search Functionality
     async searchPapers(start = 0) {
-        if (this.keywords.length === 0) {
-            this.showError('Please add at least one keyword to search');
+        const searchType = document.getElementById('search-type-select').value;
+        let searchData = {};
+        let isValid = false;
+
+        // Build search data based on type
+        switch (searchType) {
+            case 'keywords':
+                if (this.keywords.length === 0) {
+                    this.showError('Please add at least one keyword to search');
+                    return;
+                }
+                searchData = {
+                    search_type: 'keywords',
+                    keywords: this.keywords
+                };
+                isValid = true;
+                break;
+
+            case 'title':
+                const title = document.getElementById('title-input').value.trim();
+                if (!title) {
+                    this.showError('Please enter a paper title to search');
+                    return;
+                }
+                searchData = {
+                    search_type: 'title',
+                    title: title
+                };
+                isValid = true;
+                break;
+
+            case 'author':
+                const author = document.getElementById('author-input').value.trim();
+                if (!author) {
+                    this.showError('Please enter an author name to search');
+                    return;
+                }
+                searchData = {
+                    search_type: 'author',
+                    author: author
+                };
+                isValid = true;
+                break;
+
+            case 'advanced':
+                const advancedTitle = document.getElementById('advanced-title-input').value.trim();
+                const advancedAuthor = document.getElementById('advanced-author-input').value.trim();
+                const advancedKeywords = document.getElementById('advanced-keywords-input').value.trim();
+                const advancedAbstract = document.getElementById('advanced-abstract-input').value.trim();
+
+                if (!advancedTitle && !advancedAuthor && !advancedKeywords && !advancedAbstract) {
+                    this.showError('Please fill in at least one field for advanced search');
+                    return;
+                }
+
+                searchData = {
+                    search_type: 'advanced',
+                    title: advancedTitle,
+                    author: advancedAuthor,
+                    keywords: advancedKeywords ? advancedKeywords.split(',').map(k => k.trim()) : [],
+                    abstract: advancedAbstract
+                };
+                isValid = true;
+                break;
+
+            default:
+                this.showError('Invalid search type selected');
+                return;
+        }
+
+        if (!isValid) {
             return;
         }
+
+        // Add pagination and limits
+        searchData.max_results = 20;
+        searchData.start = start;
 
         this.showLoading('Searching papers...');
 
@@ -294,11 +436,7 @@ class ArxivReaderApp {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    keywords: this.keywords,
-                    max_results: 20,
-                    start: start
-                })
+                body: JSON.stringify(searchData)
             });
 
             const data = await response.json();
@@ -312,7 +450,7 @@ class ArxivReaderApp {
                 }
                 
                 this.displayPapers();
-                this.updateSearchInfo(data.results.total_results);
+                this.updateSearchInfo(data.results.total_results, searchType);
             } else {
                 this.showError(data.error || 'Failed to search papers');
             }
@@ -737,8 +875,20 @@ class ArxivReaderApp {
         this.displayPapers();
     }
 
-    updateSearchInfo(totalResults) {
+    updateSearchInfo(totalResults, searchType = 'keywords') {
         document.getElementById('results-count').textContent = totalResults;
+        
+        // Update search info text based on search type
+        const searchInfoText = document.getElementById('search-info-text');
+        const searchTypeNames = {
+            'keywords': 'keyword search',
+            'title': 'title search',
+            'author': 'author search',
+            'advanced': 'advanced search'
+        };
+        
+        searchInfoText.innerHTML = `Found <span id="results-count">${totalResults}</span> papers using ${searchTypeNames[searchType] || 'search'}`;
+        
         document.getElementById('search-info-card').style.display = 'block';
         
         // Show load more button if there are more results

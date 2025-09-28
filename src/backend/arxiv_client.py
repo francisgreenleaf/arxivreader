@@ -13,8 +13,22 @@ class ArxivClient:
         self.base_url = "http://export.arxiv.org/api/query"
         self.html_base_url = "https://arxiv.org/html"
         
-    def build_search_query(self, keywords: List[str]) -> str:
-        """Convert user keywords into arXiv search query format"""
+    def build_search_query(self, search_type: str, query_data: dict) -> str:
+        """Convert search parameters into arXiv search query format"""
+        if search_type == "keywords":
+            return self._build_keywords_query(query_data.get("keywords", []))
+        elif search_type == "title":
+            return self._build_title_query(query_data.get("title", ""))
+        elif search_type == "author":
+            return self._build_author_query(query_data.get("author", ""))
+        elif search_type == "advanced":
+            return self._build_advanced_query(query_data)
+        else:
+            # Fallback to keywords for backward compatibility
+            return self._build_keywords_query(query_data.get("keywords", []))
+    
+    def _build_keywords_query(self, keywords: List[str]) -> str:
+        """Build query for keyword-based search"""
         if not keywords:
             return ""
         
@@ -31,12 +45,109 @@ class ArxivClient:
         
         return " AND ".join(query_parts)
     
-    def search_papers(self, keywords: List[str], max_results: int = 50, start: int = 0) -> Dict:
-        """Search for papers using arXiv API"""
-        search_query = self.build_search_query(keywords)
+    def _build_title_query(self, title: str) -> str:
+        """Build query for title-based search"""
+        if not title.strip():
+            return ""
+        
+        title = title.strip()
+        
+        # If title contains quotes, search for exact phrase
+        if '"' in title:
+            return f"ti:{title}"
+        
+        # For multi-word titles, try both exact phrase and individual words
+        words = title.split()
+        if len(words) > 1:
+            # Search for exact phrase OR all words in title
+            exact_phrase = f'ti:"{title}"'
+            word_search = " AND ".join([f"ti:{word}" for word in words])
+            return f"({exact_phrase} OR ({word_search}))"
+        else:
+            # Single word - search in title
+            return f"ti:{title}"
+    
+    def _build_author_query(self, author: str) -> str:
+        """Build query for author-based search"""
+        if not author.strip():
+            return ""
+        
+        author = author.strip()
+        
+        # Handle different author name formats
+        if ',' in author:
+            # "Last, First" format
+            return f'au:"{author}"'
+        elif ' ' in author:
+            # "First Last" format - try both orders
+            parts = author.split()
+            if len(parts) == 2:
+                first, last = parts
+                format1 = f'au:"{last}, {first}"'
+                format2 = f'au:"{first} {last}"'
+                return f"({format1} OR {format2})"
+            else:
+                # Multiple names - search as phrase
+                return f'au:"{author}"'
+        else:
+            # Single name - could be first or last name
+            return f"au:{author}"
+    
+    def _build_advanced_query(self, query_data: dict) -> str:
+        """Build query for advanced search with multiple criteria"""
+        query_parts = []
+        
+        # Title search
+        if query_data.get("title"):
+            title_query = self._build_title_query(query_data["title"])
+            if title_query:
+                query_parts.append(f"({title_query})")
+        
+        # Author search
+        if query_data.get("author"):
+            author_query = self._build_author_query(query_data["author"])
+            if author_query:
+                query_parts.append(f"({author_query})")
+        
+        # Keywords search
+        if query_data.get("keywords"):
+            keywords_query = self._build_keywords_query(query_data["keywords"])
+            if keywords_query:
+                query_parts.append(f"({keywords_query})")
+        
+        # Abstract search
+        if query_data.get("abstract"):
+            abstract_terms = query_data["abstract"]
+            if isinstance(abstract_terms, str):
+                abstract_terms = [abstract_terms]
+            abs_parts = [f"abs:{term}" for term in abstract_terms]
+            query_parts.append(f"({' AND '.join(abs_parts)})")
+        
+        # Category filter
+        if query_data.get("categories"):
+            categories = query_data["categories"]
+            if isinstance(categories, str):
+                categories = [categories]
+            cat_parts = [f"cat:{cat}" for cat in categories]
+            query_parts.append(f"({' OR '.join(cat_parts)})")
+        
+        # Combine with AND logic
+        return " AND ".join(query_parts) if query_parts else ""
+    
+    def search_papers(self, search_type: str = "keywords", query_data: dict = None, max_results: int = 50, start: int = 0) -> Dict:
+        """Search for papers using arXiv API with enhanced search types"""
+        # Handle backward compatibility
+        if query_data is None and isinstance(search_type, list):
+            # Old API: search_papers(keywords_list)
+            query_data = {"keywords": search_type}
+            search_type = "keywords"
+        elif query_data is None:
+            query_data = {}
+        
+        search_query = self.build_search_query(search_type, query_data)
         
         if not search_query:
-            return {"papers": [], "total_results": 0, "error": "No keywords provided"}
+            return {"papers": [], "total_results": 0, "error": "No search criteria provided"}
         
         params = {
             "search_query": search_query,

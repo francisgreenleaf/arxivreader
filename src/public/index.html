@@ -11,6 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/chatbot.css" rel="stylesheet">
+    <link href="css/search-enhancements.css" rel="stylesheet">
     
     <!-- MathJax for mathematical expressions -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -71,22 +72,80 @@
             <!-- Sidebar for navigation/filters -->
             <div class="col-lg-3 col-md-4 d-none d-md-block bg-light sidebar">
                 <div class="sticky-top pt-3">
-                    <!-- Keywords Management -->
+                    <!-- Enhanced Search Interface -->
                     <div class="card mb-3">
                         <div class="card-header">
                             <h6 class="mb-0">
-                                <i class="fas fa-tags me-2"></i>Keywords
+                                <i class="fas fa-search me-2"></i>Search Papers
                             </h6>
                         </div>
                         <div class="card-body">
-                            <div class="input-group mb-2">
-                                <input type="text" class="form-control form-control-sm" 
-                                       id="keyword-input" placeholder="Add keyword...">
-                                <button class="btn btn-outline-primary btn-sm" type="button" id="add-keyword">
-                                    <i class="fas fa-plus"></i>
-                                </button>
+                            <!-- Search Type Selector -->
+                            <div class="mb-3">
+                                <label class="form-label small">Search Type</label>
+                                <select class="form-select form-select-sm" id="search-type-select">
+                                    <option value="keywords">Keywords</option>
+                                    <option value="title">Paper Title</option>
+                                    <option value="author">Author Name</option>
+                                    <option value="advanced">Advanced Search</option>
+                                </select>
                             </div>
-                            <div id="keywords-list" class="keywords-container"></div>
+
+                            <!-- Keywords Search (Default) -->
+                            <div id="keywords-search" class="search-mode">
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control form-control-sm" 
+                                           id="keyword-input" placeholder="Add keyword...">
+                                    <button class="btn btn-outline-primary btn-sm" type="button" id="add-keyword">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div id="keywords-list" class="keywords-container mb-2"></div>
+                            </div>
+
+                            <!-- Title Search -->
+                            <div id="title-search" class="search-mode" style="display: none;">
+                                <div class="mb-2">
+                                    <input type="text" class="form-control form-control-sm" 
+                                           id="title-input" placeholder="Enter paper title...">
+                                    <small class="form-text text-muted">Search for papers by title (exact or partial match)</small>
+                                </div>
+                            </div>
+
+                            <!-- Author Search -->
+                            <div id="author-search" class="search-mode" style="display: none;">
+                                <div class="mb-2">
+                                    <input type="text" class="form-control form-control-sm" 
+                                           id="author-input" placeholder="Enter author name...">
+                                    <small class="form-text text-muted">Format: "First Last" or "Last, First"</small>
+                                </div>
+                            </div>
+
+                            <!-- Advanced Search -->
+                            <div id="advanced-search" class="search-mode" style="display: none;">
+                                <div class="mb-2">
+                                    <label class="form-label small">Title</label>
+                                    <input type="text" class="form-control form-control-sm" 
+                                           id="advanced-title-input" placeholder="Paper title...">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label small">Author</label>
+                                    <input type="text" class="form-control form-control-sm" 
+                                           id="advanced-author-input" placeholder="Author name...">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label small">Keywords</label>
+                                    <input type="text" class="form-control form-control-sm" 
+                                           id="advanced-keywords-input" placeholder="Keywords (comma-separated)...">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label small">Abstract Contains</label>
+                                    <input type="text" class="form-control form-control-sm" 
+                                           id="advanced-abstract-input" placeholder="Terms in abstract...">
+                                </div>
+                            </div>
+
+                            <!-- Search Button -->
                             <button class="btn btn-primary btn-sm w-100 mt-2" id="search-button">
                                 <i class="fas fa-search me-1"></i>Search Papers
                             </button>

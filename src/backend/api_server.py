@@ -138,25 +138,92 @@ def update_preferences():
 
 @app.route('/api/search', methods=['POST'])
 def search_papers():
-    """Search for papers based on keywords"""
+    """Search for papers with enhanced search types (keywords, title, author, advanced)"""
     try:
         data = request.get_json()
         
-        if not data or 'keywords' not in data:
+        if not data:
             return jsonify({
                 "success": False,
-                "error": "Keywords are required"
+                "error": "Search data is required"
             }), 400
         
-        keywords = data.get('keywords', [])
+        # Get search parameters
+        search_type = data.get('search_type', 'keywords')
         max_results = data.get('max_results', 50)
         start = data.get('start', 0)
         
-        if isinstance(keywords, str):
-            keywords = [k.strip() for k in keywords.split(',')]
+        # Build query data based on search type
+        query_data = {}
+        
+        if search_type == 'keywords':
+            keywords = data.get('keywords', [])
+            if isinstance(keywords, str):
+                keywords = [k.strip() for k in keywords.split(',')]
+            
+            if not keywords:
+                return jsonify({
+                    "success": False,
+                    "error": "Keywords are required for keyword search"
+                }), 400
+            
+            query_data = {"keywords": keywords}
+            
+        elif search_type == 'title':
+            title = data.get('title', '').strip()
+            if not title:
+                return jsonify({
+                    "success": False,
+                    "error": "Title is required for title search"
+                }), 400
+            
+            query_data = {"title": title}
+            
+        elif search_type == 'author':
+            author = data.get('author', '').strip()
+            if not author:
+                return jsonify({
+                    "success": False,
+                    "error": "Author name is required for author search"
+                }), 400
+            
+            query_data = {"author": author}
+            
+        elif search_type == 'advanced':
+            # Advanced search can combine multiple criteria
+            query_data = {
+                "title": data.get('title', '').strip(),
+                "author": data.get('author', '').strip(),
+                "keywords": data.get('keywords', []),
+                "abstract": data.get('abstract', '').strip(),
+                "categories": data.get('categories', [])
+            }
+            
+            # Remove empty criteria
+            query_data = {k: v for k, v in query_data.items() if v}
+            
+            if not query_data:
+                return jsonify({
+                    "success": False,
+                    "error": "At least one search criterion is required for advanced search"
+                }), 400
+        
+        else:
+            # Backward compatibility: if no search_type specified but keywords exist
+            if 'keywords' in data:
+                search_type = 'keywords'
+                keywords = data.get('keywords', [])
+                if isinstance(keywords, str):
+                    keywords = [k.strip() for k in keywords.split(',')]
+                query_data = {"keywords": keywords}
+            else:
+                return jsonify({
+                    "success": False,
+                    "error": f"Unsupported search type: {search_type}"
+                }), 400
         
         # Search papers using arXiv client
-        results = arxiv_client.search_papers(keywords, max_results, start)
+        results = arxiv_client.search_papers(search_type, query_data, max_results, start)
         
         if 'error' in results:
             return jsonify({
@@ -168,7 +235,8 @@ def search_papers():
             "success": True,
             "results": results,
             "search_params": {
-                "keywords": keywords,
+                "search_type": search_type,
+                "query_data": query_data,
                 "max_results": max_results,
                 "start": start
             }

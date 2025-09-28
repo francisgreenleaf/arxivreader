@@ -1,11 +1,11 @@
 # ArXiv Reader
 
-A modern web application for browsing and reading arXiv research papers with beautiful HTML formatting. Search papers by keywords, view them with proper formatting, save papers for later reading, and now **discuss papers with AI** through integrated chatbot functionality.
+A modern web application for browsing and reading arXiv research papers with beautiful HTML formatting. Search papers by keywords, titles, authors, or advanced combinations, view them with proper formatting, save papers for later reading, and now **discuss papers with AI** through integrated chatbot functionality.
 
 ## Features
 
 ### Core Features
-- 🔍 **Smart Search**: Search arXiv papers using keywords with advanced filtering
+- 🔍 **Smart Search Modes**: Search arXiv papers by keywords, titles, authors, or mix criteria with the new advanced search builder
 - 📄 **HTML Rendering**: View papers in clean, formatted HTML (when available)  
 - 🎯 **Keyword Management**: Save and manage your research interests
 - 💾 **Paper Bookmarking**: Save papers for later reading
@@ -27,6 +27,12 @@ A modern web application for browsing and reading arXiv research papers with bea
 - **Dynamic Switching**: Change themes instantly without page reload
 - **Consistent Design**: Themes apply across all components including chat interface
 - **User Preferences**: Theme selection persists between sessions
+
+### 🔎 NEW: Enhanced Search Interface
+- **Multiple Modes**: Toggle between keyword, title, author, or advanced search from a single control
+- **Advanced Builder**: Combine title, author, keyword, and abstract filters for precise results (category filters available via API)
+- **Contextual Feedback**: Updated results banner reflects the active search mode and total papers found
+- **Refined UI**: Dedicated styling and improved input handling for faster search workflows
 
 ## Architecture
 
@@ -77,13 +83,20 @@ Navigate to http://localhost:3000 and start exploring arXiv papers!
 
 ### Getting Started
 
-1. **Add Keywords**: Enter research topics you're interested in (e.g., "machine learning", "neural networks")
-2. **Search Papers**: Click "Search Papers" to find relevant research
-3. **Browse Results**: View paper summaries with abstracts and metadata
-4. **Read Papers**: Click on papers to view detailed information or HTML content
-5. **Save Papers**: Bookmark interesting papers for later reading
+1. **Choose Search Mode**: Pick keywords, title, author, or advanced search from the sidebar selector
+2. **Enter Criteria**: Provide the relevant keywords, title, author, or combined filters (advanced mode)
+3. **Search Papers**: Click the search button (or press Enter) to fetch matching research
+4. **Browse Results**: View paper summaries with abstracts and metadata
+5. **Read Papers**: Click on papers to view detailed information or HTML content
+6. **Save Papers**: Bookmark interesting papers for later reading
 
 ### Key Features
+
+#### Enhanced Search Modes (NEW)
+- **Keyword Search**: Build a reusable list of research topics with quick add/remove controls
+- **Title Search**: Locate papers via full or partial titles, with smart phrase handling
+- **Author Search**: Support for "First Last" and "Last, First" name formats
+- **Advanced Search**: Combine title, author, keyword, and abstract filters for fine-grained discovery (category filters available via API)
 
 #### Keyword Management
 - Add keywords related to your research interests
@@ -135,7 +148,7 @@ The application provides a RESTful API:
 ### Core Endpoints
 - `GET /api/preferences` - Get user preferences
 - `POST /api/preferences` - Update user preferences
-- `POST /api/search` - Search for papers
+- `POST /api/search` - Search for papers via `search_type` (`keywords` | `title` | `author` | `advanced`) with matching query data
 - `GET /api/paper/:id` - Get paper details
 - `GET /api/paper/:id/html` - Get paper HTML content
 - `GET /api/saved-papers` - Get saved papers list
@@ -169,6 +182,7 @@ arxivreader/
 │   │   ├── css/
 │   │   │   ├── styles.css            # Main application styles
 │   │   │   ├── chatbot.css           # 🤖 NEW: Chatbot interface styles
+│   │   │   ├── search-enhancements.css # 🔎 NEW: Enhanced search styling
 │   │   │   └── themes/               # 🎨 NEW: Theme system
 │   │   │       ├── light.css         # Light theme
 │   │   │       ├── dark.css          # Dark theme
@@ -207,6 +221,9 @@ arxivreader/
 - `src/public/css/themes/dark.css` - Dark theme definitions
 - `src/public/css/themes/academic.css` - Academic theme definitions
 
+**🔎 Search Enhancements:**
+- `src/public/css/search-enhancements.css` - Dedicated styles for the multi-mode search experience
+
 **📋 Documentation:**
 - `implementation_plan.md` - Comprehensive development plan and feature specifications
 
@@ -223,8 +240,8 @@ arxivreader/
 
 1. Ensure both servers are running
 2. Open http://localhost:3000
-3. Add a keyword like "quantum computing"
-4. Click "Search Papers"
+3. Select keyword search, then add a term like "quantum computing"
+4. Run the search and confirm results load
 5. Try viewing a paper with HTML available
 
 ### Troubleshooting
