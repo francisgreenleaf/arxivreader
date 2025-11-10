@@ -1,0 +1,437 @@
+/* Sepia/Vintage Theme for ArXiv Reader */
+/* Warm, nostalgic aesthetic inspired by aged paper and vintage books */
+:root.theme-sepia {
+    /* Color Variables - Warm, vintage tones */
+    --primary-color: #704214;
+    --secondary-color: #5d4e37;
+    --success-color: #6b5d3f;
+    --danger-color: #8b4513;
+    --warning-color: #daa520;
+    --info-color: #8b7355;
+    --light-color: #ede3d1;
+    --dark-color: #2c1810;
+    
+    /* Background Colors - Aged paper tones */
+    --bs-body-bg: #f4ecd8;
+    --bs-body-color: #3e2723;
+    
+    /* Surface Colors */
+    --surface-color: #ede3d1;
+    --surface-hover: #e6dac5;
+    --border-color: #d4c5b0;
+    --text-muted: #6d5d4b;
+    
+    /* Paper Content */
+    --paper-bg: #faf6ed;
+    --paper-text: #3e2723;
+    --paper-heading: #2c1810;
+    --paper-abstract-bg: #f0e8d5;
+    
+    /* Interactive Elements */
+    --btn-bg: #704214;
+    --btn-border: #8b5a2b;
+    --btn-hover-bg: #8b5a2b;
+    
+    /* Card Elements */
+    --card-bg: #faf6ed;
+    --card-border: #d4c5b0;
+    --card-hover-shadow: 0 0.5rem 1rem rgba(112, 66, 20, 0.2);
+}
+
+/* Typography - Serif emphasis for vintage feel */
+.theme-sepia {
+    font-family: "Georgia", "Times New Roman", Times, serif;
+}
+
+/* Body and base elements */
+.theme-sepia body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-family: "Georgia", "Times New Roman", Times, serif;
+    line-height: 1.7;
+}
+
+/* Subtle paper texture overlay */
+.theme-sepia body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.01) 0px,
+            transparent 1px,
+            transparent 2px,
+            rgba(0, 0, 0, 0.01) 3px
+        );
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.theme-sepia .main-content,
+.theme-sepia .sidebar {
+    position: relative;
+    z-index: 1;
+}
+
+/* Navigation */
+.theme-sepia .navbar {
+    background-color: var(--surface-color) !important;
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(112, 66, 20, 0.1);
+}
+
+.theme-sepia .navbar-brand {
+    color: var(--primary-color) !important;
+    font-weight: bold;
+    font-family: "Georgia", serif;
+    letter-spacing: 0.5px;
+}
+
+.theme-sepia .nav-link {
+    color: var(--bs-body-color) !important;
+    font-weight: 500;
+}
+
+.theme-sepia .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Sidebar */
+.theme-sepia .sidebar {
+    background-color: var(--surface-color);
+    border-right: 2px solid var(--border-color);
+}
+
+/* Headings with vintage styling */
+.theme-sepia h1,
+.theme-sepia h2,
+.theme-sepia h3,
+.theme-sepia h4,
+.theme-sepia h5,
+.theme-sepia h6 {
+    font-family: "Georgia", "Times New Roman", Times, serif;
+    font-weight: bold;
+    color: var(--paper-heading);
+    letter-spacing: 0.3px;
+}
+
+/* Cards */
+.theme-sepia .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--bs-body-color);
+    box-shadow: 0 2px 4px rgba(112, 66, 20, 0.08);
+}
+
+.theme-sepia .card:hover {
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-1px);
+}
+
+.theme-sepia .card-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* Paper cards */
+.theme-sepia .paper-title {
+    color: var(--paper-heading);
+    font-family: "Georgia", "Times New Roman", Times, serif;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+.theme-sepia .paper-authors {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+.theme-sepia .paper-abstract {
+    color: var(--paper-text);
+    text-align: justify;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Buttons */
+.theme-sepia .btn {
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.theme-sepia .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #faf6ed;
+}
+
+.theme-sepia .btn-primary:hover {
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-bg);
+}
+
+.theme-sepia .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.theme-sepia .btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #faf6ed;
+}
+
+.theme-sepia .btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #faf6ed;
+}
+
+.theme-sepia .btn-outline-secondary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* Forms */
+.theme-sepia .form-control {
+    background-color: var(--paper-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+    border-radius: 3px;
+}
+
+.theme-sepia .form-control:focus {
+    background-color: var(--paper-bg);
+    border-color: var(--primary-color);
+    color: var(--bs-body-color);
+    box-shadow: 0 0 0 0.2rem rgba(112, 66, 20, 0.25);
+}
+
+.theme-sepia .form-select {
+    background-color: var(--paper-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+    border-radius: 3px;
+}
+
+/* Paper content */
+.theme-sepia .paper-content {
+    background-color: var(--paper-bg);
+    color: var(--paper-text);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 8px rgba(112, 66, 20, 0.12);
+}
+
+.theme-sepia .arxiv-content {
+    color: var(--paper-text);
+    font-family: "Georgia", "Times New Roman", Times, serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.theme-sepia .arxiv-content h1,
+.theme-sepia .arxiv-content h2,
+.theme-sepia .arxiv-content h3,
+.theme-sepia .arxiv-content h4,
+.theme-sepia .arxiv-content h5,
+.theme-sepia .arxiv-content h6 {
+    color: var(--paper-heading);
+    font-family: "Georgia", "Times New Roman", Times, serif;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.3px;
+}
+
+.theme-sepia .arxiv-content h1 {
+    font-size: 2rem;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 1rem;
+}
+
+.theme-sepia .arxiv-content h2 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.theme-sepia .arxiv-content p {
+    margin-bottom: 1.2rem;
+    text-indent: 2em;
+}
+
+.theme-sepia .arxiv-content .ltx_abstract {
+    background-color: var(--paper-abstract-bg);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    padding: 2rem;
+    margin: 2rem 0;
+    font-style: italic;
+}
+
+.theme-sepia .arxiv-content .ltx_abstract h6 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: var(--primary-color);
+    text-align: center;
+    font-style: normal;
+    letter-spacing: 1px;
+}
+
+.theme-sepia .arxiv-content .ltx_abstract p {
+    text-indent: 0;
+    font-style: italic;
+}
+
+/* Tables */
+.theme-sepia .arxiv-content table {
+    color: var(--paper-text);
+    margin: 2rem auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--border-color);
+}
+
+.theme-sepia .arxiv-content table th {
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-color);
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+}
+
+.theme-sepia .arxiv-content table td {
+    border: 1px solid var(--border-color);
+    padding: 0.8rem;
+}
+
+/* Figures */
+.theme-sepia .arxiv-content figure,
+.theme-sepia .arxiv-content .ltx_figure {
+    margin: 2rem auto;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    background-color: var(--surface-color);
+}
+
+.theme-sepia .arxiv-content figcaption,
+.theme-sepia .arxiv-content .ltx_caption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+}
+
+/* Table of contents */
+.theme-sepia .paper-toc {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+}
+
+.theme-sepia .toc-item {
+    border-bottom: 1px dotted var(--border-color);
+    padding: 0.5rem 0;
+}
+
+.theme-sepia .toc-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.theme-sepia .toc-item a:hover {
+    color: var(--btn-hover-bg);
+    text-decoration: underline;
+}
+
+/* Alerts and badges */
+.theme-sepia .alert-light {
+    background-color: var(--paper-abstract-bg);
+    border-color: var(--border-color);
+    color: var(--bs-body-color);
+    border-left: 4px solid var(--info-color);
+}
+
+.theme-sepia .badge.bg-secondary {
+    background-color: var(--secondary-color) !important;
+    color: #faf6ed;
+}
+
+/* Keywords */
+.theme-sepia .keyword-tag {
+    background-color: var(--primary-color);
+    color: #faf6ed;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.theme-sepia .keyword-tag:hover {
+    background-color: var(--btn-hover-bg);
+}
+
+/* Loading and overlays */
+.theme-sepia .loading-overlay {
+    background-color: rgba(244, 236, 216, 0.9);
+}
+
+/* Toast notifications */
+.theme-sepia .toast {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-sepia .toast-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Code blocks */
+.theme-sepia code,
+.theme-sepia pre {
+    background-color: var(--surface-color);
+    color: var(--paper-heading);
+    border: 1px solid var(--border-color);
+    font-family: "Courier New", Courier, monospace;
+}
+
+/* Links */
+.theme-sepia a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.theme-sepia a:hover {
+    color: var(--btn-hover-bg);
+    text-decoration: underline;
+}
+
+/* Print optimizations */
+@media print {
+    .theme-sepia body::before {
+        display: none;
+    }
+    
+    .theme-sepia .arxiv-content {
+        font-size: 12pt;
+        line-height: 1.6;
+    }
+}

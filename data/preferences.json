@@ -1,19 +1,27 @@
 {
   "keywords": [
-    "language models",
-    "nvidia"
+    "nvidia",
+    "ai",
+    "LLM"
   ],
   "max_results": 50,
   "saved_papers": [
     "2509.16196v1"
   ],
   "theme_preferences": {
-    "selectedTheme": "academic",
+    "selectedTheme": "dark",
     "customFontSize": 1.1,
     "availableThemes": [
       "light",
       "dark",
-      "academic"
+      "academic",
+      "solarized-light",
+      "solarized-dark",
+      "sepia",
+      "high-contrast",
+      "cyberpunk",
+      "nord",
+      "nature"
     ]
   },
   "chatbot_config": {

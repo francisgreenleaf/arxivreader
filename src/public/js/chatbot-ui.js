@@ -233,7 +233,7 @@ class ChatbotUI {
     async loadThread(threadId) {
         try {
             this.currentThreadId = threadId;
-            this.showStatus('Loading conversation...', 'info');
+            this.showChatLoading('Loading conversation...');
 
             const response = await this.apiClient.getThreadHistory(threadId);
             this.messages = response.messages;
@@ -271,26 +271,49 @@ class ChatbotUI {
             timestamp: new Date().toISOString()
         });
 
-        // Create placeholder for AI response
-        const responseId = this.addMessage({
-            role: 'assistant',
-            content: '',
-            timestamp: new Date().toISOString(),
-            isStreaming: true
-        });
+        // Show typing indicator
+        const typingIndicatorId = this.showTypingIndicator();
 
         try {
             // Stream response from API
+            let responseId = null;
+            let firstChunk = true;
+
             await this.apiClient.streamMessage(
                 this.currentThreadId,
                 message,
-                (chunk) => this.updateStreamingMessage(responseId, chunk),
-                (messageId) => this.completeStreamingMessage(responseId, messageId),
-                (error) => this.handleStreamingError(responseId, error)
+                (chunk) => {
+                    // Remove typing indicator on first chunk
+                    if (firstChunk) {
+                        this.removeTypingIndicator(typingIndicatorId);
+                        responseId = this.addMessage({
+                            role: 'assistant',
+                            content: '',
+                            timestamp: new Date().toISOString(),
+                            isStreaming: true
+                        });
+                        firstChunk = false;
+                    }
+                    this.updateStreamingMessage(responseId, chunk);
+                },
+                (messageId) => {
+                    if (responseId) {
+                        this.completeStreamingMessage(responseId, messageId);
+                    }
+                },
+                (error) => {
+                    this.removeTypingIndicator(typingIndicatorId);
+                    if (responseId) {
+                        this.handleStreamingError(responseId, error);
+                    } else {
+                        this.showStatus(`Chat error: ${error.message}`, 'error');
+                    }
+                }
             );
 
         } catch (error) {
-            this.handleStreamingError(responseId, error);
+            this.removeTypingIndicator(typingIndicatorId);
+            this.showStatus(`Chat error: ${error.message}`, 'error');
         } finally {
             this.isStreaming = false;
             document.getElementById('send-btn').disabled = false;
@@ -519,6 +542,83 @@ class ChatbotUI {
             return `${diffDays} days ago`;
         } else {
             return date.toLocaleDateString();
+        }
+    }
+
+    /**
+     * Show typing indicator
+     */
+    showTypingIndicator() {
+        const messagesContainer = document.getElementById('chat-messages');
+        const welcome = document.getElementById('chat-welcome');
+        
+        if (welcome) {
+            welcome.style.display = 'none';
+        }
+
+        const indicatorId = `typing_${Date.now()}`;
+        const indicatorDiv = document.createElement('div');
+        indicatorDiv.className = 'chat-message assistant-message';
+        indicatorDiv.id = indicatorId;
+
+        indicatorDiv.innerHTML = `
+            <div class="typing-indicator">
+                <div class="typing-indicator-dots">
+                    <div class="typing-indicator-dot"></div>
+                    <div class="typing-indicator-dot"></div>
+                    <div class="typing-indicator-dot"></div>
+                </div>
+            </div>
+        `;
+
+        messagesContainer.appendChild(indicatorDiv);
+        this.scrollToBottom();
+
+        return indicatorId;
+    }
+
+    /**
+     * Remove typing indicator
+     */
+    removeTypingIndicator(indicatorId) {
+        const indicator = document.getElementById(indicatorId);
+        if (indicator) {
+            indicator.remove();
+        }
+    }
+
+    /**
+     * Show chat loading state
+     */
+    showChatLoading(message) {
+        const messagesContainer = document.getElementById('chat-messages');
+        const welcome = document.getElementById('chat-welcome');
+        
+        if (welcome) {
+            welcome.style.display = 'none';
+        }
+
+        const loadingDiv = document.createElement('div');
+        loadingDiv.id = 'chat-loading-indicator';
+        loadingDiv.className = 'chat-loading';
+        loadingDiv.innerHTML = `
+            <div class="text-center">
+                <div class="chat-loading-spinner mb-2"></div>
+                <small class="text-muted">${message}</small>
+            </div>
+        `;
+
+        messagesContainer.appendChild(loadingDiv);
+        this.scrollToBottom();
+    }
+
+    /**
+     * Clear chat loading state
+     */
+    clearChatLoading() {
+        const loadingDiv = document.getElementById('chat-loading-indicator');
+        if (loadingDiv) {
+            loadingDiv.remove();
         }
     }
 

@@ -1,0 +1,457 @@
+/* Nature/Forest Theme for ArXiv Reader */
+/* Earth tones inspired by nature, promoting calm and focus */
+:root.theme-nature {
+    /* Color Variables - Natural earth tones */
+    --primary-color: #4a7c2e;
+    --secondary-color: #6d4c41;
+    --success-color: #7cb342;
+    --danger-color: #c62828;
+    --warning-color: #f57c00;
+    --info-color: #00897b;
+    --light-color: #e8f5e9;
+    --dark-color: #1b5e20;
+    
+    /* Background Colors - Natural tones */
+    --bs-body-bg: #f5f5f0;
+    --bs-body-color: #2d3e2d;
+    
+    /* Surface Colors */
+    --surface-color: #e8f3e8;
+    --surface-hover: #d4e9d4;
+    --border-color: #c5d9c5;
+    --text-muted: #5d6d5d;
+    
+    /* Paper Content */
+    --paper-bg: #fafff5;
+    --paper-text: #2d3e2d;
+    --paper-heading: #1b5e20;
+    --paper-abstract-bg: #e8f5e9;
+    
+    /* Interactive Elements */
+    --btn-bg: #4a7c2e;
+    --btn-border: #4a7c2e;
+    --btn-hover-bg: #5a8c3e;
+    
+    /* Card Elements */
+    --card-bg: #fafff5;
+    --card-border: #c5d9c5;
+    --card-hover-shadow: 0 0.5rem 1rem rgba(74, 124, 46, 0.2);
+    
+    /* Nature theme specific colors */
+    --forest-green: #2d5016;
+    --moss-green: #4a7c2e;
+    --leaf-green: #7cb342;
+    --soil-brown: #6d4c41;
+    --wood-brown: #8d6e63;
+}
+
+/* Body and base elements */
+.theme-nature body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.7;
+}
+
+/* Navigation */
+.theme-nature .navbar {
+    background-color: var(--surface-color) !important;
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(74, 124, 46, 0.1);
+}
+
+.theme-nature .navbar-brand {
+    color: var(--forest-green) !important;
+    font-weight: 600;
+}
+
+.theme-nature .nav-link {
+    color: var(--bs-body-color) !important;
+    transition: color 0.3s ease;
+}
+
+.theme-nature .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Sidebar */
+.theme-nature .sidebar {
+    background-color: var(--surface-color);
+    border-right: 2px solid var(--border-color);
+}
+
+/* Headings */
+.theme-nature h1,
+.theme-nature h2,
+.theme-nature h3,
+.theme-nature h4,
+.theme-nature h5,
+.theme-nature h6 {
+    color: var(--paper-heading);
+    font-weight: 600;
+}
+
+/* Cards with organic feel */
+.theme-nature .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--bs-body-color);
+    box-shadow: 0 2px 4px rgba(74, 124, 46, 0.08);
+    transition: all 0.3s ease;
+}
+
+.theme-nature .card:hover {
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-2px);
+    border-color: var(--moss-green);
+}
+
+.theme-nature .card-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* Paper cards */
+.theme-nature .paper-title {
+    color: var(--paper-heading);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.theme-nature .paper-authors {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.theme-nature .paper-abstract {
+    color: var(--paper-text);
+    line-height: 1.7;
+}
+
+/* Buttons with natural styling */
+.theme-nature .btn {
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.theme-nature .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.theme-nature .btn-primary:hover,
+.theme-nature .btn-primary:focus {
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-bg);
+    box-shadow: 0 4px 8px rgba(74, 124, 46, 0.2);
+}
+
+.theme-nature .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.theme-nature .btn-outline-primary:hover,
+.theme-nature .btn-outline-primary:focus {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.theme-nature .btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+
+.theme-nature .btn-outline-secondary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.theme-nature .btn-outline-secondary:hover,
+.theme-nature .btn-outline-secondary:focus {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+
+/* Forms */
+.theme-nature .form-control {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.theme-nature .form-control:focus {
+    background-color: var(--card-bg);
+    border-color: var(--primary-color);
+    color: var(--bs-body-color);
+    box-shadow: 0 0 0 0.2rem rgba(74, 124, 46, 0.25);
+}
+
+.theme-nature .form-select {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+    border-radius: 4px;
+}
+
+.theme-nature .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(74, 124, 46, 0.25);
+}
+
+/* Paper content */
+.theme-nature .paper-content {
+    background-color: var(--paper-bg);
+    color: var(--paper-text);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 8px rgba(74, 124, 46, 0.12);
+}
+
+.theme-nature .arxiv-content {
+    color: var(--paper-text);
+    line-height: 1.8;
+}
+
+.theme-nature .arxiv-content h1,
+.theme-nature .arxiv-content h2,
+.theme-nature .arxiv-content h3,
+.theme-nature .arxiv-content h4,
+.theme-nature .arxiv-content h5,
+.theme-nature .arxiv-content h6 {
+    color: var(--paper-heading);
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.theme-nature .arxiv-content h1 {
+    border-bottom: 3px solid var(--leaf-green);
+    padding-bottom: 0.75rem;
+}
+
+.theme-nature .arxiv-content h2 {
+    border-bottom: 2px solid var(--moss-green);
+    padding-bottom: 0.5rem;
+}
+
+.theme-nature .arxiv-content h3 {
+    border-left: 4px solid var(--leaf-green);
+    padding-left: 1rem;
+}
+
+.theme-nature .arxiv-content .ltx_abstract {
+    background-color: var(--paper-abstract-bg);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--leaf-green);
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.theme-nature .arxiv-content .ltx_abstract h6 {
+    color: var(--forest-green);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.theme-nature .arxiv-content table {
+    color: var(--paper-text);
+    border: 1px solid var(--border-color);
+}
+
+.theme-nature .arxiv-content table th {
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-color);
+    font-weight: 600;
+    color: var(--forest-green);
+}
+
+.theme-nature .arxiv-content table td {
+    border: 1px solid var(--border-color);
+}
+
+/* Figures with natural framing */
+.theme-nature .arxiv-content figure,
+.theme-nature .arxiv-content .ltx_figure {
+    margin: 2rem auto;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    background-color: var(--surface-color);
+    border-radius: 4px;
+}
+
+.theme-nature .arxiv-content figcaption,
+.theme-nature .arxiv-content .ltx_caption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Table of contents */
+.theme-nature .paper-toc {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--leaf-green);
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.theme-nature .toc-item {
+    border-bottom: 1px dotted var(--border-color);
+    padding: 0.5rem 0;
+}
+
+.theme-nature .toc-item a {
+    color: var(--forest-green);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.theme-nature .toc-item a:hover {
+    color: var(--leaf-green);
+}
+
+/* Alerts and badges */
+.theme-nature .alert-light {
+    background-color: var(--paper-abstract-bg);
+    border-color: var(--border-color);
+    color: var(--bs-body-color);
+    border-left: 4px solid var(--info-color);
+}
+
+.theme-nature .alert-success {
+    background-color: #e8f5e9;
+    border-color: var(--success-color);
+    color: var(--forest-green);
+}
+
+.theme-nature .badge {
+    font-weight: 500;
+    border-radius: 3px;
+}
+
+.theme-nature .badge.bg-secondary {
+    background-color: var(--secondary-color) !important;
+    color: white;
+}
+
+.theme-nature .badge.bg-success {
+    background-color: var(--success-color) !important;
+    color: white;
+}
+
+/* Keywords with natural styling */
+.theme-nature .keyword-tag {
+    background-color: var(--moss-green);
+    color: white;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.theme-nature .keyword-tag:hover {
+    background-color: var(--leaf-green);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(74, 124, 46, 0.3);
+}
+
+/* Loading and overlays */
+.theme-nature .loading-overlay {
+    background-color: rgba(245, 245, 240, 0.95);
+}
+
+.theme-nature .spinner {
+    border-color: var(--border-color);
+    border-top-color: var(--leaf-green);
+}
+
+/* Toast notifications */
+.theme-nature .toast {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+    box-shadow: 0 4px 8px rgba(74, 124, 46, 0.15);
+}
+
+.theme-nature .toast-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Code blocks */
+.theme-nature code,
+.theme-nature pre {
+    background-color: var(--surface-color);
+    color: var(--forest-green);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* Links with natural styling */
+.theme-nature a {
+    color: var(--moss-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.theme-nature a:hover {
+    color: var(--leaf-green);
+}
+
+/* Scrollbars (webkit) */
+.theme-nature ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.theme-nature ::-webkit-scrollbar-track {
+    background: var(--surface-color);
+}
+
+.theme-nature ::-webkit-scrollbar-thumb {
+    background: var(--moss-green);
+    border-radius: 5px;
+}
+
+.theme-nature ::-webkit-scrollbar-thumb:hover {
+    background: var(--leaf-green);
+}
+
+/* Selection color */
+.theme-nature ::selection {
+    background-color: var(--leaf-green);
+    color: white;
+}
+
+/* Organic transitions */
+.theme-nature * {
+    transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Decorative elements */
+.theme-nature .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--leaf-green), var(--moss-green));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.theme-nature .card:hover::before {
+    opacity: 1;
+}

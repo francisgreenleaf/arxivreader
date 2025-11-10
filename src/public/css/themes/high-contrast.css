@@ -1,0 +1,419 @@
+/* High Contrast Theme for ArXiv Reader */
+/* Maximum accessibility with WCAG AAA compliant colors */
+:root.theme-high-contrast {
+    /* Color Variables - High contrast colors */
+    --primary-color: #0000ff;
+    --secondary-color: #4a4a4a;
+    --success-color: #008000;
+    --danger-color: #ff0000;
+    --warning-color: #ff8c00;
+    --info-color: #0000cd;
+    --light-color: #ffffff;
+    --dark-color: #000000;
+    
+    /* Background Colors - Pure black and white */
+    --bs-body-bg: #ffffff;
+    --bs-body-color: #000000;
+    
+    /* Surface Colors */
+    --surface-color: #f0f0f0;
+    --surface-hover: #e0e0e0;
+    --border-color: #000000;
+    --text-muted: #1a1a1a;
+    
+    /* Paper Content */
+    --paper-bg: #ffffff;
+    --paper-text: #000000;
+    --paper-heading: #000000;
+    --paper-abstract-bg: #f5f5f5;
+    
+    /* Interactive Elements */
+    --btn-bg: #0000ff;
+    --btn-border: #0000ff;
+    --btn-hover-bg: #0000cc;
+    
+    /* Card Elements */
+    --card-bg: #ffffff;
+    --card-border: #000000;
+    --card-hover-shadow: none;
+    
+    /* Focus indicators */
+    --focus-color: #ff8c00;
+    --focus-width: 3px;
+}
+
+/* Body and base elements */
+.theme-high-contrast body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* Navigation */
+.theme-high-contrast .navbar {
+    background-color: var(--bs-body-bg) !important;
+    border-bottom: 3px solid var(--border-color);
+}
+
+.theme-high-contrast .navbar-brand {
+    color: var(--bs-body-color) !important;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.theme-high-contrast .nav-link {
+    color: var(--primary-color) !important;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.theme-high-contrast .nav-link:hover,
+.theme-high-contrast .nav-link:focus {
+    color: var(--btn-hover-bg) !important;
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+/* Sidebar */
+.theme-high-contrast .sidebar {
+    background-color: var(--surface-color) !important;
+    border-right: 3px solid var(--border-color);
+}
+
+.theme-high-contrast .bg-light {
+    background-color: var(--surface-color) !important;
+}
+
+/* Cards */
+.theme-high-contrast .card {
+    background-color: var(--card-bg);
+    border: 3px solid var(--card-border);
+    color: var(--bs-body-color);
+}
+
+.theme-high-contrast .card:hover,
+.theme-high-contrast .card:focus {
+    border-width: 4px;
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+.theme-high-contrast .card-header {
+    background-color: var(--surface-color);
+    border-bottom: 3px solid var(--border-color);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Paper cards */
+.theme-high-contrast .paper-title {
+    color: var(--paper-heading);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.theme-high-contrast .paper-authors {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.theme-high-contrast .paper-abstract {
+    color: var(--paper-text);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* Buttons - Large, clear targets */
+.theme-high-contrast .btn {
+    border-width: 3px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+    min-height: 48px;
+    min-width: 48px;
+}
+
+.theme-high-contrast .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--border-color);
+    color: var(--light-color);
+}
+
+.theme-high-contrast .btn-primary:hover,
+.theme-high-contrast .btn-primary:focus {
+    background-color: var(--btn-hover-bg);
+    border-color: var(--border-color);
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+.theme-high-contrast .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background-color: var(--light-color);
+    border-width: 3px;
+}
+
+.theme-high-contrast .btn-outline-primary:hover,
+.theme-high-contrast .btn-outline-primary:focus {
+    background-color: var(--primary-color);
+    border-color: var(--border-color);
+    color: var(--light-color);
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+.theme-high-contrast .btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--border-color);
+    color: var(--light-color);
+}
+
+.theme-high-contrast .btn-outline-secondary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    background-color: var(--light-color);
+    border-width: 3px;
+}
+
+/* Forms - Large, clear inputs */
+.theme-high-contrast .form-control {
+    background-color: var(--card-bg);
+    border: 3px solid var(--border-color);
+    color: var(--bs-body-color);
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    min-height: 48px;
+}
+
+.theme-high-contrast .form-control:focus {
+    background-color: var(--card-bg);
+    border-color: var(--primary-color);
+    color: var(--bs-body-color);
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+.theme-high-contrast .form-select {
+    background-color: var(--card-bg);
+    border: 3px solid var(--border-color);
+    color: var(--bs-body-color);
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    min-height: 48px;
+}
+
+.theme-high-contrast .form-select:focus {
+    border-color: var(--primary-color);
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* Paper content */
+.theme-high-contrast .paper-content {
+    background-color: var(--paper-bg);
+    color: var(--paper-text);
+    border: 3px solid var(--border-color);
+}
+
+.theme-high-contrast .arxiv-content {
+    color: var(--paper-text);
+    font-size: 1.15rem;
+    line-height: 2;
+}
+
+.theme-high-contrast .arxiv-content h1,
+.theme-high-contrast .arxiv-content h2,
+.theme-high-contrast .arxiv-content h3,
+.theme-high-contrast .arxiv-content h4,
+.theme-high-contrast .arxiv-content h5,
+.theme-high-contrast .arxiv-content h6 {
+    color: var(--paper-heading);
+    font-weight: bold;
+    border-bottom: 3px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.theme-high-contrast .arxiv-content h1 {
+    font-size: 2.2rem;
+}
+
+.theme-high-contrast .arxiv-content h2 {
+    font-size: 1.8rem;
+}
+
+.theme-high-contrast .arxiv-content h3 {
+    font-size: 1.5rem;
+}
+
+.theme-high-contrast .arxiv-content .ltx_abstract {
+    background-color: var(--paper-abstract-bg);
+    border: 3px solid var(--border-color);
+    padding: 2rem;
+}
+
+.theme-high-contrast .arxiv-content table {
+    color: var(--paper-text);
+    border: 3px solid var(--border-color);
+}
+
+.theme-high-contrast .arxiv-content table th {
+    background-color: var(--surface-color);
+    border: 3px solid var(--border-color);
+    font-weight: bold;
+}
+
+.theme-high-contrast .arxiv-content table td {
+    border: 3px solid var(--border-color);
+    padding: 1rem;
+}
+
+/* Table of contents */
+.theme-high-contrast .paper-toc {
+    background-color: var(--surface-color);
+    border: 3px solid var(--border-color);
+}
+
+.theme-high-contrast .toc-item {
+    border-bottom: 3px solid var(--border-color);
+    padding: 0.75rem 0;
+}
+
+.theme-high-contrast .toc-item a {
+    color: var(--primary-color);
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 1.1rem;
+}
+
+.theme-high-contrast .toc-item a:hover,
+.theme-high-contrast .toc-item a:focus {
+    color: var(--btn-hover-bg);
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+/* Alerts and badges */
+.theme-high-contrast .alert-light {
+    background-color: var(--paper-abstract-bg);
+    border: 3px solid var(--border-color);
+    color: var(--bs-body-color);
+    font-weight: 600;
+}
+
+.theme-high-contrast .badge {
+    border: 2px solid var(--border-color);
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.theme-high-contrast .badge.bg-secondary {
+    background-color: var(--secondary-color) !important;
+    color: var(--light-color);
+}
+
+/* Keywords */
+.theme-high-contrast .keyword-tag {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    border: 2px solid var(--border-color);
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+.theme-high-contrast .keyword-tag:hover,
+.theme-high-contrast .keyword-tag:focus {
+    background-color: var(--btn-hover-bg);
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+/* Loading and overlays */
+.theme-high-contrast .loading-overlay {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 3px solid var(--border-color);
+}
+
+.theme-high-contrast .spinner {
+    border-width: 5px;
+    border-color: var(--border-color);
+    border-top-color: var(--primary-color);
+}
+
+/* Toast notifications */
+.theme-high-contrast .toast {
+    background-color: var(--card-bg);
+    border: 3px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-high-contrast .toast-header {
+    background-color: var(--surface-color);
+    border-bottom: 3px solid var(--border-color);
+    font-weight: bold;
+}
+
+/* Links - Clear and underlined */
+.theme-high-contrast a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.theme-high-contrast a:hover,
+.theme-high-contrast a:focus {
+    color: var(--btn-hover-bg);
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+/* Focus indicators for all interactive elements */
+.theme-high-contrast *:focus {
+    outline: var(--focus-width) solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+/* Remove box shadows */
+.theme-high-contrast * {
+    box-shadow: none !important;
+}
+
+/* Ensure minimum touch targets (48x48px) */
+.theme-high-contrast button,
+.theme-high-contrast a.btn,
+.theme-high-contrast input[type="submit"],
+.theme-high-contrast input[type="button"] {
+    min-height: 48px;
+    min-width: 48px;
+}
+
+/* Code blocks */
+.theme-high-contrast code,
+.theme-high-contrast pre {
+    background-color: var(--surface-color);
+    color: var(--paper-heading);
+    border: 3px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* Skip to main content link */
+.theme-high-contrast .skip-to-main {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary-color);
+    color: var(--light-color);
+    padding: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    z-index: 100;
+}
+
+.theme-high-contrast .skip-to-main:focus {
+    top: 0;
+}
