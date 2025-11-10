@@ -9,6 +9,7 @@ class ThemeManager {
                 id: 'light',
                 name: 'Light Theme',
                 description: 'Clean and bright theme for comfortable reading',
+                category: ['light', 'minimal'],
                 fonts: {
                     body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                     heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -19,6 +20,7 @@ class ThemeManager {
                 id: 'dark',
                 name: 'Dark Theme',
                 description: 'Easy on the eyes for low-light environments',
+                category: ['dark', 'minimal'],
                 fonts: {
                     body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                     heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -29,9 +31,87 @@ class ThemeManager {
                 id: 'academic',
                 name: 'Academic Theme',
                 description: 'Traditional serif fonts optimized for academic reading',
+                category: ['light', 'professional'],
                 fonts: {
                     body: '"Times New Roman", Times, "Liberation Serif", serif',
                     heading: '"Times New Roman", Times, "Liberation Serif", serif',
+                    monospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                }
+            },
+            'solarized-light': {
+                id: 'solarized-light',
+                name: 'Solarized Light',
+                description: 'Precision-engineered color palette designed for reduced eye fatigue',
+                category: ['light', 'professional'],
+                fonts: {
+                    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                    monospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                }
+            },
+            'solarized-dark': {
+                id: 'solarized-dark',
+                name: 'Solarized Dark',
+                description: 'Precision-engineered dark palette designed for reduced eye fatigue',
+                category: ['dark', 'professional'],
+                fonts: {
+                    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                    monospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                }
+            },
+            sepia: {
+                id: 'sepia',
+                name: 'Sepia/Vintage',
+                description: 'Warm nostalgic aesthetic inspired by aged paper and vintage books',
+                category: ['light', 'warm'],
+                fonts: {
+                    body: '"Georgia", "Times New Roman", Times, serif',
+                    heading: '"Georgia", "Times New Roman", Times, serif',
+                    monospace: '"Courier New", Courier, monospace'
+                }
+            },
+            'high-contrast': {
+                id: 'high-contrast',
+                name: 'High Contrast',
+                description: 'Maximum accessibility with WCAG AAA compliant colors',
+                category: ['light', 'accessible'],
+                fonts: {
+                    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                    monospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                }
+            },
+            cyberpunk: {
+                id: 'cyberpunk',
+                name: 'Cyberpunk/Neon',
+                description: 'Futuristic aesthetic with vibrant neon accents',
+                category: ['dark', 'colorful'],
+                fonts: {
+                    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    monospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                }
+            },
+            nord: {
+                id: 'nord',
+                name: 'Nord/Arctic',
+                description: 'Cool, calming palette inspired by arctic landscapes',
+                category: ['dark', 'professional'],
+                fonts: {
+                    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    monospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                }
+            },
+            nature: {
+                id: 'nature',
+                name: 'Nature/Forest',
+                description: 'Earth tones inspired by nature, promoting calm and focus',
+                category: ['light', 'warm'],
+                fonts: {
+                    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                     monospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
                 }
             }
@@ -119,8 +199,9 @@ class ThemeManager {
     async applyTheme(themeId) {
         const themeConfig = this.themeConfigs[themeId];
         
-        // Remove active theme classes
-        document.documentElement.classList.remove('theme-light', 'theme-dark', 'theme-academic');
+        // Remove all existing theme classes
+        const allThemeClasses = Object.keys(this.themeConfigs).map(id => `theme-${id}`);
+        document.documentElement.classList.remove(...allThemeClasses);
         
         // Add new theme class
         document.documentElement.classList.add(`theme-${themeId}`);

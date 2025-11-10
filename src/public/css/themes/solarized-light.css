@@ -1,0 +1,298 @@
+/* Solarized Light Theme for ArXiv Reader */
+/* Based on Ethan Schoonover's Solarized color scheme */
+:root.theme-solarized-light {
+    /* Solarized Base Colors */
+    --solarized-base03: #002b36;
+    --solarized-base02: #073642;
+    --solarized-base01: #586e75;
+    --solarized-base00: #657b83;
+    --solarized-base0: #839496;
+    --solarized-base1: #93a1a1;
+    --solarized-base2: #eee8d5;
+    --solarized-base3: #fdf6e3;
+    
+    /* Solarized Accent Colors */
+    --solarized-yellow: #b58900;
+    --solarized-orange: #cb4b16;
+    --solarized-red: #dc322f;
+    --solarized-magenta: #d33682;
+    --solarized-violet: #6c71c4;
+    --solarized-blue: #268bd2;
+    --solarized-cyan: #2aa198;
+    --solarized-green: #859900;
+    
+    /* Theme Color Variables */
+    --primary-color: #268bd2;
+    --secondary-color: #6c71c4;
+    --success-color: #859900;
+    --danger-color: #dc322f;
+    --warning-color: #b58900;
+    --info-color: #2aa198;
+    --light-color: #eee8d5;
+    --dark-color: #073642;
+    
+    /* Background Colors */
+    --bs-body-bg: #fdf6e3;
+    --bs-body-color: #657b83;
+    
+    /* Surface Colors */
+    --surface-color: #eee8d5;
+    --surface-hover: #e4ddc4;
+    --border-color: #d3cbb7;
+    --text-muted: #93a1a1;
+    
+    /* Paper Content */
+    --paper-bg: #fdf6e3;
+    --paper-text: #586e75;
+    --paper-heading: #073642;
+    --paper-abstract-bg: #eee8d5;
+    
+    /* Interactive Elements */
+    --btn-bg: #268bd2;
+    --btn-border: #268bd2;
+    --btn-hover-bg: #2075b0;
+    
+    /* Card Elements */
+    --card-bg: #fdf6e3;
+    --card-border: #d3cbb7;
+    --card-hover-shadow: 0 0.5rem 1rem rgba(0, 43, 54, 0.15);
+}
+
+/* Body and base elements */
+.theme-solarized-light body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+/* Navigation */
+.theme-solarized-light .navbar {
+    background-color: var(--surface-color) !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.theme-solarized-light .navbar-brand {
+    color: var(--primary-color) !important;
+    font-weight: 600;
+}
+
+.theme-solarized-light .nav-link {
+    color: var(--bs-body-color) !important;
+}
+
+.theme-solarized-light .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Sidebar */
+.theme-solarized-light .sidebar {
+    background-color: var(--surface-color);
+    border-right: 1px solid var(--border-color);
+}
+
+.theme-solarized-light .bg-light {
+    background-color: var(--surface-color) !important;
+}
+
+/* Cards */
+.theme-solarized-light .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--bs-body-color);
+}
+
+.theme-solarized-light .card:hover {
+    box-shadow: var(--card-hover-shadow);
+}
+
+.theme-solarized-light .card-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Paper cards */
+.theme-solarized-light .paper-title {
+    color: var(--paper-heading);
+}
+
+.theme-solarized-light .paper-authors {
+    color: var(--text-muted);
+}
+
+.theme-solarized-light .paper-abstract {
+    color: var(--paper-text);
+}
+
+/* Buttons */
+.theme-solarized-light .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--solarized-base3);
+}
+
+.theme-solarized-light .btn-primary:hover,
+.theme-solarized-light .btn-primary:focus {
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-bg);
+}
+
+.theme-solarized-light .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.theme-solarized-light .btn-outline-primary:hover,
+.theme-solarized-light .btn-outline-primary:focus {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--solarized-base3);
+}
+
+.theme-solarized-light .btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--solarized-base3);
+}
+
+.theme-solarized-light .btn-outline-secondary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.theme-solarized-light .btn-outline-secondary:hover,
+.theme-solarized-light .btn-outline-secondary:focus {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--solarized-base3);
+}
+
+/* Forms */
+.theme-solarized-light .form-control {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-solarized-light .form-control:focus {
+    background-color: var(--card-bg);
+    border-color: var(--primary-color);
+    color: var(--bs-body-color);
+    box-shadow: 0 0 0 0.2rem rgba(38, 139, 210, 0.25);
+}
+
+.theme-solarized-light .form-select {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+/* Paper content */
+.theme-solarized-light .paper-content {
+    background-color: var(--paper-bg);
+    color: var(--paper-text);
+    border: 1px solid var(--border-color);
+}
+
+.theme-solarized-light .arxiv-content {
+    color: var(--paper-text);
+}
+
+.theme-solarized-light .arxiv-content h1,
+.theme-solarized-light .arxiv-content h2,
+.theme-solarized-light .arxiv-content h3,
+.theme-solarized-light .arxiv-content h4,
+.theme-solarized-light .arxiv-content h5,
+.theme-solarized-light .arxiv-content h6 {
+    color: var(--paper-heading);
+}
+
+.theme-solarized-light .arxiv-content .ltx_abstract {
+    background-color: var(--paper-abstract-bg);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--primary-color);
+}
+
+.theme-solarized-light .arxiv-content table {
+    color: var(--paper-text);
+}
+
+.theme-solarized-light .arxiv-content table th {
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-color);
+}
+
+.theme-solarized-light .arxiv-content table td {
+    border: 1px solid var(--border-color);
+}
+
+/* Table of contents */
+.theme-solarized-light .paper-toc {
+    background-color: var(--surface-color);
+}
+
+.theme-solarized-light .toc-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.theme-solarized-light .toc-item a {
+    color: var(--paper-heading);
+}
+
+.theme-solarized-light .toc-item a:hover {
+    color: var(--primary-color);
+}
+
+/* Alerts and badges */
+.theme-solarized-light .alert-light {
+    background-color: var(--paper-abstract-bg);
+    border-color: var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-solarized-light .badge.bg-secondary {
+    background-color: var(--secondary-color) !important;
+    color: var(--solarized-base3);
+}
+
+/* Keywords */
+.theme-solarized-light .keyword-tag {
+    background-color: var(--primary-color);
+    color: var(--solarized-base3);
+}
+
+.theme-solarized-light .keyword-tag:hover {
+    background-color: var(--btn-hover-bg);
+}
+
+/* Loading and overlays */
+.theme-solarized-light .loading-overlay {
+    background-color: rgba(253, 246, 227, 0.9);
+}
+
+/* Toast notifications */
+.theme-solarized-light .toast {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-solarized-light .toast-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Code blocks */
+.theme-solarized-light code,
+.theme-solarized-light pre {
+    background-color: var(--surface-color);
+    color: var(--solarized-base01);
+    border: 1px solid var(--border-color);
+}
+
+/* Links */
+.theme-solarized-light a {
+    color: var(--primary-color);
+}
+
+.theme-solarized-light a:hover {
+    color: var(--btn-hover-bg);
+}

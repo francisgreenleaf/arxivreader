@@ -7,10 +7,10 @@
   "scripts": {
     "start": "concurrently \"pnpm run frontend\" \"pnpm run backend\" --names \"frontend,backend\" --prefix-colors \"cyan,yellow\" --kill-others-on-fail",
     "frontend": "node src/index.js",
-    "backend": "source venv/bin/activate && cd src/backend && python3 api_server.py",
-    "dev": "concurrently \"node --watch src/index.js\" \"source venv/bin/activate && cd src/backend && python3 api_server.py\" --names \"frontend,backend\" --prefix-colors \"cyan,yellow\" --kill-others-on-fail",
+    "backend": "source .venv/bin/activate && cd src/backend && python3 api_server.py",
+    "dev": "concurrently \"node --watch src/index.js\" \"source .venv/bin/activate && cd src/backend && python3 api_server.py\" --names \"frontend,backend\" --prefix-colors \"cyan,yellow\" --kill-others-on-fail",
     "dev-frontend": "node --watch src/index.js",
-    "dev-backend": "source venv/bin/activate && cd src/backend && python3 api_server.py",
+    "dev-backend": "source .venv/bin/activate && cd src/backend && python3 api_server.py",
     "setup-python": "python3 -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt",
     "install-python": "pip3 install -r requirements.txt",
     "test": "echo \"Error: no test specified\" && exit 1",

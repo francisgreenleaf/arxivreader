@@ -1,0 +1,420 @@
+/* Nord/Arctic Theme for ArXiv Reader */
+/* Cool, calming palette inspired by arctic landscapes */
+:root.theme-nord {
+    /* Nord Polar Night */
+    --nord0: #2e3440;
+    --nord1: #3b4252;
+    --nord2: #434c5e;
+    --nord3: #4c566a;
+    
+    /* Nord Snow Storm */
+    --nord4: #d8dee9;
+    --nord5: #e5e9f0;
+    --nord6: #eceff4;
+    
+    /* Nord Frost */
+    --nord7: #8fbcbb;
+    --nord8: #88c0d0;
+    --nord9: #81a1c1;
+    --nord10: #5e81ac;
+    
+    /* Nord Aurora */
+    --nord11: #bf616a;
+    --nord12: #d08770;
+    --nord13: #ebcb8b;
+    --nord14: #a3be8c;
+    --nord15: #b48ead;
+    
+    /* Theme Color Variables */
+    --primary-color: #5e81ac;
+    --secondary-color: #81a1c1;
+    --success-color: #a3be8c;
+    --danger-color: #bf616a;
+    --warning-color: #ebcb8b;
+    --info-color: #88c0d0;
+    --light-color: #3b4252;
+    --dark-color: #eceff4;
+    
+    /* Background Colors */
+    --bs-body-bg: #2e3440;
+    --bs-body-color: #eceff4;
+    
+    /* Surface Colors */
+    --surface-color: #3b4252;
+    --surface-hover: #434c5e;
+    --border-color: #4c566a;
+    --text-muted: #d8dee9;
+    
+    /* Paper Content */
+    --paper-bg: #3b4252;
+    --paper-text: #eceff4;
+    --paper-heading: #eceff4;
+    --paper-abstract-bg: #434c5e;
+    
+    /* Interactive Elements */
+    --btn-bg: #5e81ac;
+    --btn-border: #5e81ac;
+    --btn-hover-bg: #81a1c1;
+    
+    /* Card Elements */
+    --card-bg: #3b4252;
+    --card-border: #4c566a;
+    --card-hover-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+/* Body and base elements */
+.theme-nord body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Navigation */
+.theme-nord .navbar {
+    background-color: var(--surface-color) !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.theme-nord .navbar-brand {
+    color: var(--nord8) !important;
+    font-weight: 600;
+}
+
+.theme-nord .nav-link {
+    color: var(--bs-body-color) !important;
+    transition: color 0.2s ease;
+}
+
+.theme-nord .nav-link:hover {
+    color: var(--nord8) !important;
+}
+
+/* Sidebar */
+.theme-nord .sidebar {
+    background-color: var(--surface-color) !important;
+    border-right: 1px solid var(--border-color);
+}
+
+.theme-nord .bg-light {
+    background-color: var(--surface-color) !important;
+}
+
+/* Cards with frost effects */
+.theme-nord .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--bs-body-color);
+    transition: all 0.2s ease;
+}
+
+.theme-nord .card:hover {
+    box-shadow: var(--card-hover-shadow);
+    border-color: var(--nord9);
+}
+
+.theme-nord .card-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* Paper cards */
+.theme-nord .paper-title {
+    color: var(--paper-heading);
+    font-weight: 600;
+}
+
+.theme-nord .paper-authors {
+    color: var(--text-muted);
+}
+
+.theme-nord .paper-abstract {
+    color: var(--paper-text);
+}
+
+/* Buttons */
+.theme-nord .btn {
+    border-width: 1px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.theme-nord .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--nord6);
+}
+
+.theme-nord .btn-primary:hover,
+.theme-nord .btn-primary:focus {
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-bg);
+}
+
+.theme-nord .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.theme-nord .btn-outline-primary:hover,
+.theme-nord .btn-outline-primary:focus {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--nord6);
+}
+
+.theme-nord .btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--nord0);
+}
+
+.theme-nord .btn-outline-secondary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.theme-nord .btn-outline-secondary:hover,
+.theme-nord .btn-outline-secondary:focus {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--nord0);
+}
+
+/* Forms */
+.theme-nord .form-control {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+    transition: border-color 0.2s ease;
+}
+
+.theme-nord .form-control:focus {
+    background-color: var(--surface-color);
+    border-color: var(--nord8);
+    color: var(--bs-body-color);
+    box-shadow: 0 0 0 0.2rem rgba(136, 192, 208, 0.25);
+}
+
+.theme-nord .form-select {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-nord .form-select:focus {
+    border-color: var(--nord8);
+    box-shadow: 0 0 0 0.2rem rgba(136, 192, 208, 0.25);
+}
+
+/* Paper content */
+.theme-nord .paper-content {
+    background-color: var(--paper-bg);
+    color: var(--paper-text);
+    border: 1px solid var(--border-color);
+}
+
+.theme-nord .arxiv-content {
+    color: var(--paper-text);
+}
+
+.theme-nord .arxiv-content h1,
+.theme-nord .arxiv-content h2,
+.theme-nord .arxiv-content h3,
+.theme-nord .arxiv-content h4,
+.theme-nord .arxiv-content h5,
+.theme-nord .arxiv-content h6 {
+    color: var(--paper-heading);
+    font-weight: 600;
+}
+
+.theme-nord .arxiv-content h1 {
+    border-bottom: 2px solid var(--nord8);
+    padding-bottom: 0.5rem;
+}
+
+.theme-nord .arxiv-content h2 {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.theme-nord .arxiv-content .ltx_abstract {
+    background-color: var(--paper-abstract-bg);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--nord8);
+}
+
+.theme-nord .arxiv-content table {
+    color: var(--paper-text);
+}
+
+.theme-nord .arxiv-content table th {
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+.theme-nord .arxiv-content table td {
+    border: 1px solid var(--border-color);
+}
+
+/* Table of contents */
+.theme-nord .paper-toc {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+}
+
+.theme-nord .toc-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.theme-nord .toc-item a {
+    color: var(--nord8);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.theme-nord .toc-item a:hover {
+    color: var(--nord9);
+}
+
+/* Alerts and badges */
+.theme-nord .alert-light {
+    background-color: var(--paper-abstract-bg);
+    border-color: var(--border-color);
+    color: var(--bs-body-color);
+    border-left: 3px solid var(--nord8);
+}
+
+.theme-nord .badge.bg-secondary {
+    background-color: var(--secondary-color) !important;
+    color: var(--nord0);
+}
+
+.theme-nord .badge.bg-success {
+    background-color: var(--success-color) !important;
+    color: var(--nord0);
+}
+
+.theme-nord .badge.bg-danger {
+    background-color: var(--danger-color) !important;
+    color: var(--nord6);
+}
+
+.theme-nord .badge.bg-warning {
+    background-color: var(--warning-color) !important;
+    color: var(--nord0);
+}
+
+.theme-nord .badge.bg-info {
+    background-color: var(--info-color) !important;
+    color: var(--nord0);
+}
+
+/* Keywords with frost colors */
+.theme-nord .keyword-tag {
+    background-color: var(--nord8);
+    color: var(--nord0);
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.theme-nord .keyword-tag:hover {
+    background-color: var(--nord9);
+}
+
+/* Loading and overlays */
+.theme-nord .loading-overlay {
+    background-color: rgba(46, 52, 64, 0.9);
+}
+
+.theme-nord .spinner {
+    border-color: var(--border-color);
+    border-top-color: var(--nord8);
+}
+
+/* Toast notifications */
+.theme-nord .toast {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--bs-body-color);
+}
+
+.theme-nord .toast-header {
+    background-color: var(--surface-hover);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Code blocks */
+.theme-nord code,
+.theme-nord pre {
+    background-color: var(--surface-hover);
+    color: var(--nord14);
+    border: 1px solid var(--border-color);
+}
+
+/* Links with frost effect */
+.theme-nord a {
+    color: var(--nord8);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.theme-nord a:hover {
+    color: var(--nord9);
+}
+
+/* Scrollbars (webkit) */
+.theme-nord ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.theme-nord ::-webkit-scrollbar-track {
+    background: var(--bs-body-bg);
+}
+
+.theme-nord ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.theme-nord ::-webkit-scrollbar-thumb:hover {
+    background: var(--nord9);
+}
+
+/* Selection color */
+.theme-nord ::selection {
+    background-color: var(--nord9);
+    color: var(--nord0);
+}
+
+/* Success/Info/Warning/Error states with Aurora colors */
+.theme-nord .alert-success {
+    background-color: var(--nord14);
+    border-color: var(--nord14);
+    color: var(--nord0);
+}
+
+.theme-nord .alert-danger {
+    background-color: var(--nord11);
+    border-color: var(--nord11);
+    color: var(--nord6);
+}
+
+.theme-nord .alert-warning {
+    background-color: var(--nord13);
+    border-color: var(--nord13);
+    color: var(--nord0);
+}
+
+.theme-nord .alert-info {
+    background-color: var(--nord8);
+    border-color: var(--nord8);
+    color: var(--nord0);
+}
+
+/* Smooth frost transitions */
+.theme-nord * {
+    transition-timing-function: ease-in-out;
+}

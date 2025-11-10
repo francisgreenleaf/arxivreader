@@ -1,17 +1,35 @@
 {
   "keywords": [
-    "Machine Learning",
-    "artificial intelligence"
+    "nvidia",
+    "ai",
+    "LLM"
   ],
   "max_results": 50,
-  "saved_papers": [],
+  "saved_papers": [
+    "2509.16196v1"
+  ],
   "theme_preferences": {
-    "selectedTheme": "academic",
+    "selectedTheme": "dark",
     "customFontSize": 1.1,
     "availableThemes": [
       "light",
       "dark",
-      "academic"
+      "academic",
+      "solarized-light",
+      "solarized-dark",
+      "sepia",
+      "high-contrast",
+      "cyberpunk",
+      "nord",
+      "nature"
     ]
+  },
+  "chatbot_config": {
+    "provider": "",
+    "api_key_encrypted": "",
+    "model": "",
+    "max_tokens": 4000,
+    "temperature": 0.7,
+    "is_configured": false
   }
 }

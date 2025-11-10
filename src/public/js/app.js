@@ -424,11 +424,12 @@ class ArxivReaderApp {
             return;
         }
 
-        // Add pagination and limits
-        searchData.max_results = 20;
-        searchData.start = start;
-
-        this.showLoading('Searching papers...');
+        // Show loading state with skeleton cards
+        if (start === 0) {
+            this.showSearchLoading();
+        } else {
+            this.showLoadMoreLoading();
+        }
 
         try {
             const response = await fetch('/api/search', {
@@ -461,8 +462,15 @@ class ArxivReaderApp {
 
     async loadMoreResults() {
         if (this.searchParams && this.currentPapers.length > 0) {
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            loadMoreBtn.classList.add('btn-loading');
+            loadMoreBtn.disabled = true;
+            
             const start = this.currentPapers.length;
             await this.searchPapers(start);
+            
+            loadMoreBtn.classList.remove('btn-loading');
+            loadMoreBtn.disabled = false;
         }
     }
 
@@ -504,7 +512,7 @@ class ArxivReaderApp {
         }
 
         div.innerHTML = `
-            <div class="card paper-card" onclick="app.viewPaper('${paper.id}')">
+            <div class="card paper-card" tabindex="0" onclick="app.viewPaper('${paper.id}')">
                 <div class="card-body">
                     <h5 class="paper-title">${paper.title}</h5>
                     <p class="paper-authors">${authors}${moreAuthors}</p>
@@ -542,7 +550,7 @@ class ArxivReaderApp {
 
     async viewPaper(arxivId) {
         try {
-            this.showLoading('Loading paper details...');
+            this.showPaperLoading('Loading paper details...');
             
             const response = await fetch(`/api/paper/${arxivId}`);
             const data = await response.json();
@@ -561,7 +569,7 @@ class ArxivReaderApp {
 
     async viewPaperHTML(arxivId) {
         try {
-            this.showLoading('Loading HTML content...');
+            this.showPaperLoading('Loading HTML content...', 'This may take a moment for complex papers');
             
             const response = await fetch(`/api/paper/${arxivId}/html`);
             const data = await response.json();
@@ -700,6 +708,92 @@ class ArxivReaderApp {
         this.hideAllScreens();
         document.getElementById('loading-spinner').style.display = 'block';
         document.querySelector('#loading-spinner p').textContent = message;
+    }
+
+    showSearchLoading() {
+        this.hideAllScreens();
+        const container = document.getElementById('papers-container');
+        container.style.display = 'block';
+        
+        const papersList = document.getElementById('papers-list');
+        papersList.className = 'papers-list';
+        papersList.innerHTML = `
+            <div class="search-loading slide-up">
+                <div class="search-loading-content">
+                    <div class="spinner-container">
+                        <div class="spinner spinner-lg"></div>
+                    </div>
+                    <h5 class="mt-3">Searching Papers</h5>
+                    <p>Fetching results from arXiv...</p>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Show skeleton cards below
+        setTimeout(() => {
+            papersList.innerHTML += this.createSkeletonCards(3);
+        }, 300);
+    }
+
+    showLoadMoreLoading() {
+        const papersList = document.getElementById('papers-list');
+        const loadingDiv = document.createElement('div');
+        loadingDiv.id = 'load-more-loading';
+        loadingDiv.className = 'col-12 text-center my-3';
+        loadingDiv.innerHTML = `
+            <div class="inline-loading">
+                <div class="spinner spinner-sm"></div>
+                <span>Loading more papers...</span>
+            </div>
+        `;
+        papersList.appendChild(loadingDiv);
+    }
+
+    showPaperLoading(title = 'Loading...', subtitle = '') {
+        this.hideAllScreens();
+        const paperViewer = document.getElementById('paper-viewer');
+        paperViewer.style.display = 'block';
+        
+        const paperContent = document.getElementById('paper-content');
+        paperContent.innerHTML = `
+            <div class="search-loading slide-up">
+                <div class="search-loading-content">
+                    <div class="spinner-container">
+                        <div class="spinner spinner-lg"></div>
+                    </div>
+                    <h5 class="mt-3">${title}</h5>
+                    ${subtitle ? `<p>${subtitle}</p>` : ''}
+                    <div class="progress-bar-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    createSkeletonCards(count = 3) {
+        let html = '';
+        for (let i = 0; i < count; i++) {
+            html += `
+                <div class="col-12 fade-in" style="animation-delay: ${i * 0.1}s">
+                    <div class="skeleton-card">
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-author"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="mt-3">
+                            <div class="skeleton skeleton-badge"></div>
+                            <div class="skeleton skeleton-badge"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        return html;
     }
 
     showError(message) {

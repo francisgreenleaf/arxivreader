@@ -8,3 +8,4 @@ anthropic>=0.25.0
 tiktoken>=0.8.0
 python-dotenv==1.0.0
 cryptography>=41.0.0
+pytest==8.4.2
